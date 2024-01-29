@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_math.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 17:03:47 by kglebows          #+#    #+#             */
+/*   Updated: 2024/01/29 17:03:54 by kglebows         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 /**
@@ -51,7 +63,8 @@ t_vector	v_subtract(t_vector vector1, t_vector vector2)
 }
 
 /**
- * @brief Calculates the lenght of a vector. Lenght of normalized vector is always == 1.
+ * @brief Calculates the lenght of a vector.
+ * Lenght of normalized vector is always == 1.
  * @param vector The vector to get lenght from.
  * @return The lenght of a vector.
  */
@@ -61,4 +74,21 @@ double	v_length(t_vector vector)
 
 	lenght = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
 	return (lenght);
+}
+
+/**
+ * @brief Normalizes a vector so that its values are between -1 and 1.
+ * Normalized vector has the same direction but its lenght == 1
+ * @param vector The vector to normalize
+ * @return The normalized vector
+ */
+t_vector	v_normalize(t_vector vector)
+{
+	t_vector	normalized;
+	double		lenght;
+
+	lenght = v_length(vector);
+	normalized.x = vector.x / lenght;
+	normalized.y = vector.y / lenght;
+	normalized.z = vector.z / lenght;
 }
