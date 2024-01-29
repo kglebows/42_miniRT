@@ -59,5 +59,6 @@ double	v_length(t_vector vector)
 {
 	double		lenght;
 
-	lenght = 
+	lenght = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+	return (lenght);
 }
