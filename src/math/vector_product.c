@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:04:45 by kglebows          #+#    #+#             */
-/*   Updated: 2024/01/29 17:52:37 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:18:20 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,10 @@ double	v_dot(t_vector vector1, t_vector vector2)
  */
 t_vector	v_cross(t_vector vector1, t_vector vector2)
 {
-	
+	t_vector	new_vector;
+
+	new_vector.x = vector1.y * vector2.z - vector1.z * vector2.y;
+	new_vector.y = vector1.z * vector2.x - vector1.x * vector2.z;
+	new_vector.z = vector1.x * vector2.y - vector1.y * vector2.x;
+	return (new_vector);
 }
