@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
+#    By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/01/29 15:58:40 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/02 11:23:26 by ekordi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ LIB_MLX	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRC_MLX	:= $(shell find ./src -iname "*.c")
 OBJ_MLX := ${SRC_MLX:.c=.o}
 
-SRCS	= main.c \
+SRCS	= main.c parse/parse.c \
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 
@@ -74,12 +74,13 @@ makelibft:
 	fi
 
 $(NAME): makelibft $(LIBMLXA) $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB_MLX) $(HEADERS) -L$(OBJDIR)/libft -lft
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB_MLX) $(HEADERS) -L$(OBJDIR)/libft
+#-lft
 
 clean-empty-dirs:
 	@if [ -d $(OBJDIR) ]; then find $(OBJDIR) -type d -empty -exec rmdir {} +; fi
 
-clean: 
+clean:
 	@for obj in $(OBJS); do \
 		if [ -f "$$obj" ]; then \
 			rm -f $$obj && echo "\033[0;33m$$obj deleted\033[0m"; \

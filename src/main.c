@@ -1,8 +1,13 @@
 #include "minirt.h"
 
-int	main()
+int main(int argc, char **argv)
 {
-	return (0);
+	if (argc != 2)
+		return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
+	t_scene scene;
+	pars_scene(argv[1], &scene);
+	printf("%d %d\n", scene.resol.x, scene.resol.y);
+	return 0;
 }
 /*
 

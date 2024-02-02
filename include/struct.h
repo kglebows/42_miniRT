@@ -73,4 +73,35 @@ typedef struct s_dt
 
 }				t_dt;
 
+
+
+
+typedef struct		s_resol
+{
+	int				x;
+	int				y;
+}					t_resol;
+
+
+typedef struct		s_scene
+{
+	char			*line;
+	char			**split;
+	short int		qtys[9];
+	t_resol			resol;
+}					t_scene;
+
+typedef struct		s_elem
+{
+	t_point			point;
+	t_point			normal;
+	t_point			*vertex;
+	short int		qtd_vertex;
+	int				colour;
+	double			ratio;
+	double			diam;
+	double			height;
+	struct s_elem	*next;
+}					t_elem;
+typedef void		(*parse_function_arr)(t_scene *, t_elem **);
 #endif
