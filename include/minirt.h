@@ -6,7 +6,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
-
+# include "../lib/libft/libft.h"
 # include "struct.h"
 # include "math.h"
 

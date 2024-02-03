@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/02 10:58:44 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/03 15:56:18 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void pars_scene(char *file, t_scene *scene)
 	static char	*s[9] = {"R ", "A ", "c ", "l ", "sp", "pl", "sq", "cy", "tr"};
 	int element_id;
 
-	while (scene->line = get_next_line(fd))
+	while ((scene->line = get_next_line(fd)))
 	{
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
