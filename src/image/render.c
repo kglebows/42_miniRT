@@ -11,6 +11,6 @@ t_ok	render_mlx(t_dt *dt)
 	if (!dt->img)
 		return (err("mlx image creation failed!"));
 	mlx_image_to_window(dt->mlx, dt->img, 0, 0);
-	
+
 
 }
