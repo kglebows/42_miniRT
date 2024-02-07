@@ -30,44 +30,50 @@ int	ft_open(char *argv)
 	}
 	return (fd);
 }
-void	get_resol(t_scene *scene, t_elem **new)
-{
-	scene->resol.x = get_posint(scene->split[1], "106");
-	scene->resol.y = get_posint(scene->split[2], "106");
-	if (new)
-		return ;
-}
-void parse_element(int element_id, t_scene *scene)
-{
-	parse_function_arr function_arr[9] = {get_resol};
-	t_elem *new;
 
-	if(element_id > 2)
+bool	ftstrisint(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (i <= ft_strlen(str))
 	{
-	new = NULL;
-	new = ft_calloc(sizeof(t_elem), 1);
-	ft_bzero(new, 0);
-	new->next = NULL;
+		if (!ft_isdigit(str[i++]))
+			return (false);
 	}
-	//input validation must be implemented
+	return (true);
+}
+
+void	parse_element(int element_id, t_scene *scene)
+{
+	parse_function_arr	function_arr[9] = {get_resol, get_ambilight};
+	t_elem				*new;
+
+	if (element_id > 2)
+	{
+		new = NULL;
+		new = ft_calloc(sizeof(t_elem), 1);
+		ft_bzero(new, 0);
+		new->next = NULL;
+	}
+	// input validation must be implemented
 	function_arr[element_id](scene, &new);
 	scene->qtys[element_id]++;
 }
-void pars_scene(char *file, t_scene *scene)
+void	pars_scene(char *file, t_scene *scene)
 {
-	int fd = ft_open(file);
+	int			fd;
 	static char	*s[9] = {"R ", "A ", "c ", "l ", "sp", "pl", "sq", "cy", "tr"};
-	int element_id;
+	int			element_id;
 
+	fd = ft_open(file);
 	while ((scene->line = get_next_line(fd)))
 	{
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
-		if(element_id < 9)
+		if (element_id < 9)
 			parse_element(element_id, scene);
 		free(scene->line);
 	}
-
 }
-

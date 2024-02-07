@@ -13,7 +13,7 @@
 NAME = minirt
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 CFLAGS_MLX := -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX := ./lib/mlx
@@ -28,13 +28,14 @@ SRCDIR = ./src
 
 LIBMLXA := $(LIBMLX)/build/libmlx42.a
 MLX_PATH := lib/mlx
+LIBFT_PATH :=  lib/libft
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIB_MLX	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRC_MLX	:= $(shell find ./src -iname "*.c")
 OBJ_MLX := ${SRC_MLX:.c=.o}
 
-SRCS	= main.c parse/parse.c \
+SRCS	= main.c parse/parser.c parse/get_elem_utils.c parse/get_scene_elemets.c parse/get_rgb.c\
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 

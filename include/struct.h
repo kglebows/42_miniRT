@@ -76,11 +76,21 @@ typedef struct s_dt
 
 
 
+
+
+
 typedef struct		s_resol
 {
 	int				x;
 	int				y;
 }					t_resol;
+
+typedef struct		s_ambilight
+{
+	double			ratio;
+	int				colour;
+
+}					t_ambilight;
 
 
 typedef struct		s_scene
@@ -89,6 +99,8 @@ typedef struct		s_scene
 	char			**split;
 	short int		qtys[9];
 	t_resol			resol;
+	t_ambilight		ambilight;
+	t_rgb			rgb;
 }					t_scene;
 
 typedef struct		s_elem
