@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/03 15:56:18 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:10:27 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	parse_element(int element_id, t_scene *scene)
 		ft_bzero(new, 0);
 		new->next = NULL;
 	}
+
 	// input validation must be implemented
 	function_arr[element_id](scene, &new);
 	scene->qtys[element_id]++;
@@ -67,7 +68,8 @@ void	pars_scene(char *file, t_scene *scene)
 	int			element_id;
 
 	fd = ft_open(file);
-	while ((scene->line = get_next_line(fd)))
+	scene->line = get_next_line(fd);
+	while (scene->line != NULL)
 	{
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
@@ -75,5 +77,6 @@ void	pars_scene(char *file, t_scene *scene)
 		if (element_id < 9)
 			parse_element(element_id, scene);
 		free(scene->line);
+		scene->line = get_next_line(fd);
 	}
 }

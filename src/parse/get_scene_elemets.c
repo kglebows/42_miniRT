@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/07 09:56:19 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:10:10 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	get_resol(t_scene *scene, t_elem **new)
 		scene->resol.y = ft_atoi(scene->split[2]);
 	}
 	else
+	{
+		printf("noo");
 		exit(1);
+	}
 	if (new)
 		return ;
 }

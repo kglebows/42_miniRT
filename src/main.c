@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 		return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
 	t_scene scene;
 	pars_scene(argv[1], &scene);
-	printf("%d %d\n", scene.resol.x, scene.resol.y);
+	printf("%d %d\n", scene.rgb.b,scene.rgb.r );
 	return 0;
 }
 /*

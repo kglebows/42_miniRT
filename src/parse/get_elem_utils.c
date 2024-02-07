@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:58:54 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/07 09:58:54 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:06:09 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ bool	ft_strisint(char *str)
 	int	i;
 
 	i = 0;
-	while (i <= ft_strlen(str))
+	while (i < ft_strlen(str))
 	{
-		if (!ft_isdigit(str[i++]))
+		if (!ft_isdigit(str[i]) && str[i] != '\n')
 			return (false);
+		i++;
 	}
 	return (true);
 }
