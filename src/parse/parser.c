@@ -44,9 +44,26 @@ bool	ftstrisint(char *str)
 	return (true);
 }
 
+void	scene_split_validation(t_scene *scene, int element_id)
+{
+	static int element_attr_count[9] = {3, 3, 4, 4, 4, 4, 5, 6, 5};
+	int i = 1;
+
+	while (scene->line[i])
+	{
+		if (!ft_isalnum(scene->line[i]) && (scene->line[i] != ',' ||
+				scene->line[i] != ' ' || scene->line[i] != '-'))
+			exit(5);
+		i++;
+	}
+	scene->split = ft_split(scene->line, ' ');
+	if (ft_arraylen(scene->split) != element_attr_count[element_id])
+		exit(6);
+}
+
 void	parse_element(int element_id, t_scene *scene)
 {
-	parse_function_arr	function_arr[9] = {get_resol, get_ambilight};
+	parse_function_arr	function_arr[9] = {get_resol, get_ambilight, get_camera, get_light};
 	t_elem				*new;
 
 	if (element_id > 2)
@@ -56,10 +73,10 @@ void	parse_element(int element_id, t_scene *scene)
 		ft_bzero(new, 0);
 		new->next = NULL;
 	}
-
-	// input validation must be implemented
+	scene_split_validation(scene, element_id);
 	function_arr[element_id](scene, &new);
 	scene->qtys[element_id]++;
+	free_char_array(scene->split);
 }
 void	pars_scene(char *file, t_scene *scene)
 {

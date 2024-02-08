@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <math.h>
 
 bool	ft_strisint(char *str)
 {
@@ -42,29 +41,6 @@ bool	ft_str_isfloat(char *str)
 	return (true);
 }
 
-// double	ft_atof(const char *str)
-// {
-// 	double	int_part;
-// 	double	dec_part;
-// 	double	sign;
-// 	int		i;
-
-// 	int_part = 0.0;
-// 	dec_part = 0.0;
-// 	sign = 1.0;
-// 	if (*str == '+' || *str == '-')
-// 		if (*str++ == '-')
-// 			sign = -1.0;
-// 	while (ft_isdigit(*str))
-// 		int_part = int_part * 10 + (*str++ - '0');
-// 	i = -1;
-// 	if (*str == '.' && *str++)
-// 	{
-// 		while (ft_isdigit(*str))
-// 			dec_part += (pow(10, i--) * (*str++ - '0'));
-// 	}
-// 	return (sign * (int_part + dec_part));
-// }
 double	ft_atof(const char *str)
 {
 	double	result;
@@ -98,12 +74,53 @@ double	ft_atof(const char *str)
 	return (result * sign);
 }
 
-size_t	ft_arraylen(char **s)
+t_point get_coord(char *attr)
 {
-	size_t	l;
+	char **split;
+	t_point coord;
 
-	l = 0;
-	while (s[l] != 0)
-		l++;
-	return (l);
+	split = ft_split(attr, ',');
+	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0]) &&
+			ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
+	{
+		free_char_array(split);
+		exit(6);
+	}
+	coord.x = ft_atof(split[0]);
+	coord.y = ft_atof(split[1]);
+	coord.z = ft_atof(split[2]);
+	free_char_array(split);
+	return(coord);
+}
+
+double get_ratio(char *str)
+{
+	double	nbr;
+
+	nbr = ft_atof(str);
+	if (!(nbr >= 0.0 && nbr <= 1.0))
+		exit(7);
+	return (nbr);
+}
+double	get_size(char *str)
+{
+	double	nbr;
+
+	nbr = ft_atof(str);
+	if (nbr < 0.0)
+		exit(8);
+	return (nbr);
+}
+
+t_point	get_normal(char *str)
+{
+	t_point	coord;
+
+	coord = get_coord(str);
+	if (coord.x >= -1.0 && coord.x <= 1.0 &&
+			coord.y >= -1.0 && coord.y <= 1.0 &&
+			coord.z >= -1.0 && coord.z <= 1.0)
+		return(coord);
+	else
+		exit(9);
 }

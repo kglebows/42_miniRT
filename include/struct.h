@@ -78,6 +78,17 @@ typedef struct s_dt
 
 
 
+typedef struct		s_cam
+{
+//	t_img			img;
+	t_point			point;
+	t_point			normal;
+	float			fov;
+//	t_coord			hor;
+//	t_coord			ver;
+//	t_coord			llc;
+	struct s_cam	*next;
+}					t_cam;
 
 typedef struct		s_resol
 {
@@ -88,8 +99,7 @@ typedef struct		s_resol
 typedef struct		s_ambilight
 {
 	double			ratio;
-	int				colour;
-
+	t_rgb			rgb;
 }					t_ambilight;
 
 
@@ -100,7 +110,13 @@ typedef struct		s_scene
 	short int		qtys[9];
 	t_resol			resol;
 	t_ambilight		ambilight;
-	t_rgb			rgb;
+	t_cam			*cam;
+	t_elem			*light;
+	t_elem			*sp;
+	t_elem			*pl;
+	t_elem			*sq;
+	t_elem			*cy;
+	t_elem			*tr;
 }					t_scene;
 
 typedef struct		s_elem
@@ -109,7 +125,7 @@ typedef struct		s_elem
 	t_point			normal;
 	t_point			*vertex;
 	short int		qtd_vertex;
-	int				colour;
+	int				color;
 	double			ratio;
 	double			diam;
 	double			height;
