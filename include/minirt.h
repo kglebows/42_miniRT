@@ -33,6 +33,17 @@ void	get_rgb(t_scene *scene, char **split);
 bool	ft_isrgb(int n);
 
 void	free_char_array(char **array);
+t_point		gen_coord(double x, double y, double z);
+t_point		v_add(t_point v, t_point u);
+
+t_point		v_sub(t_point v, t_point u);
+
+t_point		v_scale(t_point v, double f);
+
+t_point		v_cross(t_point v, t_point u);
+
+double		v_dot(t_point v, t_point u);
+
 
 
 #endif

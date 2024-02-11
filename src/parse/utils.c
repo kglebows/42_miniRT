@@ -32,3 +32,13 @@ size_t	ft_arraylen(char **s)
 		l++;
 	return (l);
 }
+
+t_point		gen_coord(double x, double y, double z)
+{
+	t_point	coord;
+
+	coord.x = x;
+	coord.y = y;
+	coord.z = z;
+	return (coord);
+}
