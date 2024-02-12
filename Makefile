@@ -6,7 +6,7 @@
 #    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/06 15:21:42 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/12 17:10:05 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,10 @@ OBJ_MLX := ${SRC_MLX:.c=.o}
 SRCS	=	main.c\
 			exit/error.c\
 			image/render.c\
+			image/viewport.c\
 			math/vector_math.c\
-			math/vector_product.c
+			math/vector_product.c\
+			math/point_math.c
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 

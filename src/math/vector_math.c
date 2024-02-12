@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:03:47 by kglebows          #+#    #+#             */
-/*   Updated: 2024/01/29 17:03:54 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:15:19 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ t_vector	v_normalize(t_vector vector)
 	normalized.x = vector.x / lenght;
 	normalized.y = vector.y / lenght;
 	normalized.z = vector.z / lenght;
+	return (normalized);
 }

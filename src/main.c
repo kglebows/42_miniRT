@@ -5,11 +5,13 @@ int main(int argc, char **argv)
 	t_dt	dt;
 
 
-	if (argc != 2)
-		return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
+	// if (argc != 2)
+	// 	return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
 	// t_scene scene;
+	(void)argc;
 	(void)argv;
 	render_mlx(&dt);
+	mlx_loop(dt.mlx);
 	// pars_scene(argv[1], &scene);
 	// printf("%d %d\n", scene.resol.x, scene.resol.y);
 	return 0;

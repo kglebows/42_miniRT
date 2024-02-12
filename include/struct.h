@@ -70,14 +70,14 @@ typedef struct s_ray
  */
 typedef struct s_dt
 {
-	int32_t		screen_width;
-	int32_t		screen_height;
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_vector	camera;
-	double		fov;
-	
-}				t_dt;
+	u_int32_t		screen_width;
+	u_int32_t		screen_height;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_vector		delta_u;
+	t_vector		delta_v;
+	t_point			pixel_center;
+}					t_dt;
 
 
 
