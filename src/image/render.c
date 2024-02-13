@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 08:58:47 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:19:57 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,29 @@ t_ray	r_pixelray(u_int32_t x, u_int32_t y, t_dt *dt)
 
 t_rgb	ray_shot(t_ray ray, t_dt *dt)
 {
-	
+	t_elem		*temp;
+	t_hit		hit;
+	t_hit		temp_hit;
+
+	hit.type = BG;
+	temp = dt->elements;
+	while (temp != NULL)
+	{
+		if (temp->type == SP)
+			temp_hit = ray_target_sphere(ray, temp, dt);
+		else if (temp->type == PL)
+			temp_hit = ray_target_plane(ray, temp, dt);
+		else if (temp->type == CY)
+			temp_hit = ray_target_cylinder(ray, temp, dt);
+		else
+			err("UNIDENTIFIED ELEMENT IN THE LIST!");
+		if (temp_hit.type != BG 
+			&& ((hit.type == BG && temp_hit.distance > 0)
+			|| (hit.type != BG && temp_hit.distance < hit.distance)))
+			hit = temp_hit;
+		temp = temp->next;
+	}
+	return (light(hit, dt));
 }
 
 /**

@@ -6,7 +6,7 @@
 #    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/12 17:10:05 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/13 10:09:33 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRCS	=	main.c\
 			exit/error.c\
 			image/render.c\
 			image/viewport.c\
+			image/hit.c\
+			image/light.c\
 			math/vector_math.c\
 			math/vector_product.c\
 			math/point_math.c

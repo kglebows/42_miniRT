@@ -12,6 +12,7 @@ typedef enum e_ok
 	KO
 }			t_ok;
 
+
 /**
  * @brief RGB colour representation. Values of 0-255
  * @param r RED
@@ -63,9 +64,19 @@ typedef struct s_ray
 {
 	t_point		origin;
 	t_vector	direction;
-	t_point		hit_point;
-	double		hit_distance;
 }				t_ray;
+
+/**
+ * @brief Hit structure containing all the information about ray hitting an element
+ */
+typedef struct s_hit
+{
+	t_ray		ray;
+	t_point		point;
+	double		distance;
+	t_elemtype	type;
+	t_rgb		color;
+}				t_hit;
 
 /**
  * @brief Main data structure that holds all information needed for the program.
@@ -80,9 +91,8 @@ typedef struct s_dt
 	t_vector		delta_v;
 	t_point			pixel_center;
 	t_point			cam_pos;
+	t_elem			*elements;
 }					t_dt;
-
-
 
 
 typedef struct		s_resol
@@ -100,17 +110,41 @@ typedef struct		s_scene
 	t_resol			resol;
 }					t_scene;
 
+/**
+ * @brief Type of element
+ * @param BG Background
+ * @param SP Sphere
+ * @param PL Plane
+ * @param CY Cylinder
+ */
+typedef enum e_elemtype
+{
+	BG,
+	SP,
+	PL,
+	CY
+}			t_elemtype;
+
+/**
+ * @brief Unified sturcture for list of all elements.
+ * @param type type of an element
+ * @param center center of Sphere/Cylinder or point on plane
+ * @param axis Normalized vector. Axis of cylinder/Plane face
+ * @param color rgb color of element
+ * @param diameter diameter of sphere/cylinder
+ * @param height height of cylinder
+ * @param next next element on the list. NULL == end of list
+ */
 typedef struct		s_elem
 {
-	t_point			point;
-	t_point			normal;
-	t_point			*vertex;
-	short int		qtd_vertex;
-	int				colour;
-	double			ratio;
-	double			diam;
+	t_elemtype		type;
+	t_point			center;
+	t_vector		axis;
+	t_rgb			color;
+	double			diameter;
 	double			height;
 	struct s_elem	*next;
 }					t_elem;
+
 typedef void		(*parse_function_arr)(t_scene *, t_elem **);
 #endif
