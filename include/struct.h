@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
+/*   Updated: 2024/02/13 12:11:32 by kglebows         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -28,7 +40,8 @@ typedef struct s_rgb
 
 /**
  * @brief POINT in XYZ coordinate system.
- * Z axis is a cross product of X and Y axises. X goes right, Y goes up, Z goes towards you.
+ * Z axis is a cross product of X and Y axises.
+ * X goes right, Y goes up, Z goes towards you.
  * @param x coordinate along the X axis (Width)
  * @param y coordinate along the Y axis (Height)
  * @param z coordinate along the Z axis (Depth)
@@ -42,8 +55,10 @@ typedef struct s_point
 
 /**
  * @brief VECTOR in XYZ coordinate system. It represents a direction
- * in 3d space multiplied by its magnitude (lenght). Normalized Vector has a lenght = 1.
- * Z axis is a cross product of X and Y axises. X goes right, Y goes up, Z goes towards you.
+ * in 3d space multiplied by its magnitude (lenght).
+ * Normalized Vector has a lenght = 1.
+ * Z axis is a cross product of X and Y axises. X goes right, Y goes up,
+ * Z goes towards you.
  * @param x Direction along X axis multiplied by vector lenght (Width)
  * @param y Direction along Y axis multiplied by vector lenght (Height)
  * @param z Direction along Z axis multiplied by vector lenght (Depth)
@@ -67,15 +82,22 @@ typedef struct s_ray
 }				t_ray;
 
 /**
- * @brief Hit structure containing all the information about ray hitting an element
+ * @brief Hit structure containing all the information about ray intersection
+ * @param ray ray shot
+ * @param type type of element hit by ray. BG - nothing
+ * @param color color of element hit
+ * @param point point that was hit by ray
+ * @param norm surface normal vector in the hit point
+ * @param distance distance from camera to the hit point
  */
 typedef struct s_hit
 {
 	t_ray		ray;
-	t_point		point;
-	double		distance;
 	t_elemtype	type;
 	t_rgb		color;
+	t_point		point;
+	t_vector	norm;
+	double		distance;
 }				t_hit;
 
 /**
