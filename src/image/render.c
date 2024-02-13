@@ -1,23 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
+/*   Updated: 2024/02/13 08:58:47 by kglebows         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-// t_rgb	pixel_colour(u_int32_t x, u_int32_t y, t_dt *dt)
-// {
-// 	t_rgb	colour;
+/**
+ * @brief Creates a camera ray for individual pixel
+ * @param x pixel x position
+ * @param y pixel y position
+ * @param dt main data structure
+ * @return ray between the camera and the pixel on (x,y)
+*/
+t_ray	r_pixelray(u_int32_t x, u_int32_t y, t_dt *dt)
+{
+	t_point		pixel;
+	t_ray		ray;
 
-// 	colour.r = (y * 255/ dt->screen_height) % 256;
-// 	colour.g = (x * 255 / dt->screen_width) % 256;
-// 	colour.b =  ((x + y) * 255  / (dt->screen_height + dt->screen_width)) % 256;
-// 	return (colour);
-// }
+	ray.origin = dt->cam_pos;
+	pixel = p_translate(v_add(
+		v_scale(dt->delta_u, x),
+		v_scale(dt->delta_v, y)),
+		dt->pixel_center);
+	ray.direction = v_normalize(v_p2p(dt->cam_pos, pixel));
+	return (ray);
+}
 
+t_rgb	ray_shot(t_ray ray, t_dt *dt)
+{
+	
+}
+
+/**
+ * @brief Gets a rgb colour for individual pixel.
+ * If Super Sampling Anty Aliasing (SSAA) is enabled, shoots 5 rays:
+ * to the center of a pixel and to the center of each side of a pixel
+ * then aproximates the colour from these 5 rays
+ * @param x pixel x position
+ * @param y pixel y position
+ * @param dt main data structure
+ * @return rgb colour to draw pixel
+*/
 t_rgb	pixel_colour(u_int32_t x, u_int32_t y, t_dt *dt)
 {
-	t_rgb	colour;
+	t_rgb	rgb;
+	t_rgb	ss[5];
 
-	colour.r = (y * 255/ dt->screen_height) % 256;
-	colour.g = (x * 255 / dt->screen_width) % 256;
-	colour.b =  ((x + y) * 255  / (dt->screen_height + dt->screen_width)) % 256;
-	return (colour);
+	if (SSAA == 0)
+		rgb = ray_shot(r_pixelray(x, y, dt), dt);
+	else
+	{
+		ss[0] = ray_shot(r_pixelray(x, y, dt), dt);
+		ss[1] = ray_shot(r_pixelray(x + 0.5, y, dt), dt);
+		ss[2] = ray_shot(r_pixelray(x - 0.5, y, dt), dt);
+		ss[3] = ray_shot(r_pixelray(x, y + 0.5, dt), dt);
+		ss[4] = ray_shot(r_pixelray(x, y - 0.5, dt), dt);
+		rgb.r = round((ss[0].r + ss[1].r + ss[2].r + ss[3].r + ss[4].r) / 5);
+		rgb.g = round((ss[0].g + ss[1].g + ss[2].g + ss[3].g + ss[4].g) / 5);
+		rgb.b = round((ss[0].b + ss[1].b + ss[2].b + ss[3].b + ss[4].b) / 5);
+	}
+	return (rgb);
 }
 
 /**

@@ -63,6 +63,8 @@ typedef struct s_ray
 {
 	t_point		origin;
 	t_vector	direction;
+	t_point		hit_point;
+	double		hit_distance;
 }				t_ray;
 
 /**
@@ -77,6 +79,7 @@ typedef struct s_dt
 	t_vector		delta_u;
 	t_vector		delta_v;
 	t_point			pixel_center;
+	t_point			cam_pos;
 }					t_dt;
 
 

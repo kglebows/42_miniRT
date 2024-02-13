@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:03:47 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/12 13:15:19 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/13 07:30:46 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_vector	v_subtract(t_vector vector1, t_vector vector2)
  * @param vector The vector to get lenght from.
  * @return The lenght of a vector.
  */
-double	v_length(t_vector vector)
+double	d_length(t_vector vector)
 {
 	double		lenght;
 
@@ -87,7 +87,7 @@ t_vector	v_normalize(t_vector vector)
 	t_vector	normalized;
 	double		lenght;
 
-	lenght = v_length(vector);
+	lenght = d_length(vector);
 	normalized.x = vector.x / lenght;
 	normalized.y = vector.y / lenght;
 	normalized.z = vector.z / lenght;

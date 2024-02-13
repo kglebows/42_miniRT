@@ -10,6 +10,10 @@
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "struct.h"
 
+# ifndef SSAA
+#  define SSAA 0
+# endif
+
 /*exit*/
 t_ok		err(char *str);
 t_ok		msg(char *str);
@@ -22,11 +26,12 @@ void		ini_viewport(t_vector c_dir, t_point c_pos, double fov, t_dt *dt);
 t_vector	v_scale(t_vector vector, double scalar);
 t_vector	v_add(t_vector vector1, t_vector vector2);
 t_vector	v_subtract(t_vector vector1, t_vector vector2);
-double		v_length(t_vector vector);
+double		d_length(t_vector vector);
 t_vector	v_normalize(t_vector vector);
-double		v_dot(t_vector vector1, t_vector vector2);
+double		d_dot(t_vector vector1, t_vector vector2);
 t_vector	v_cross(t_vector vector1, t_vector vector2);
 t_vector	v_translate(t_vector vector, t_point point);
 t_point		p_translate(t_vector vector, t_point point);
+t_vector	v_p2p(t_point start, t_point end);
 
 #endif
