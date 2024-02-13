@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 12:32:08 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:25:53 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,32 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *element, t_dt *dt)
 	return (hit);
 }
 
+/**
+ * @brief Checks if the ray hit the plane
+ * @param ray ray that shoots towards the element
+ * @param element element that is being checked for a hit
+ * @param dt main data straucture
+ * @attention In order to check if the ray intersects the plane
+ * we have to use the dot product of two perpendicular vectors (== 0).
+ * First vector will be n - the normal of plane. The second we need to
+ * create from hit point (p) and plane point (c). If the dot product == 0
+ * then it means that the ray intersects the plane. the equation:
+ * (p - c)⋅n = 0
+ * 
+ * (x + sp.x)^2 + (y + sp.y)^2 + (z + sp.z)^2 = r^2
+ * if C = (sp.x, sp.y, sp.z) and P = (x, y, z)
+ * then we can use cross product of vector (P - C) to fill the equation
+ * (P - C)⋅(P - C) = r^2
+ * then if we represent the P as A + td where d is ray direction,
+ * A is ray origin and t is distance.
+ * after some mathematical magic (ref) we end up with quadratic formula.
+ * >>(-b +- sqr(b^2 - 4ac)) / 2a<<
+ * where 
+ * a = d⋅d
+ * b = 2d⋅(A - C)
+ * c = (A - C)⋅(A - C) - r^2
+ * @return hit of sphere type if hit or background type if no-hit
+*/
 t_hit	ray_target_plane(t_ray ray, t_elem *element, t_dt *dt)
 {
 	
