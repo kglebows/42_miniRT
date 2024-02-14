@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 10:30:42 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:06:32 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ typedef struct s_vector
 
 /**
  * @brief Ray represents a vector attached to a point.
- * @param origin A starting point of a vector
- * @param direction A vector consisting of direction multiplied by lenght.
+ * @param o Origin - A starting point of a vector
+ * @param d Direction - A vector consisting of direction 
+ * multiplied by lenght.
  */
 typedef struct s_ray
 {
-	t_point		origin;
-	t_vector	direction;
+	t_point		o;
+	t_vector	d;
 }				t_ray;
 
 /**
@@ -152,7 +153,7 @@ typedef enum e_elemtype
  * @param type type of an element
  * @param center center of Sphere/Cylinder or point on plane
  * @param axis Normalized vector. Axis of cylinder/Plane face
- * @param oc Vector from camera to center
+ * @param oc Vector from center to camera
  * @param color rgb color of element
  * @param diameter diameter of sphere/cylinder
  * @param height height of cylinder
@@ -169,6 +170,18 @@ typedef struct		s_elem
 	double			height;
 	struct s_elem	*next;
 }					t_elem;
+
+
+/**
+ * @brief quadratic formula solving structure
+ */
+typedef struct		s_qf
+{
+	double			a;
+	double			b;
+	double			c;
+	double			discriminant;
+}					t_qf;
 
 typedef void		(*parse_function_arr)(t_scene *, t_elem **);
 #endif

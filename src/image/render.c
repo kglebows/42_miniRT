@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 10:34:48 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:07:20 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_ray	r_pixelray(u_int32_t x, u_int32_t y, t_dt *dt)
 	t_point		pixel;
 	t_ray		ray;
 
-	ray.origin = dt->cam_pos;
+	ray.o = dt->cam_pos;
 	pixel = p_translate(v_add(
 		v_scale(dt->delta_u, x),
 		v_scale(dt->delta_v, y)),
 		dt->pixel_center);
-	ray.direction = v_normalize(v_p2p(dt->cam_pos, pixel));
+	ray.d = v_normalize(v_p2p(dt->cam_pos, pixel));
 	return (ray);
 }
 
@@ -139,6 +139,6 @@ t_ok	render_mlx(t_dt *dt)
 		return (err("mlx image creation failed!"));
 	mlx_image_to_window(dt->mlx, dt->img, 0, 0);
 	ini_viewport((t_vector){0,0,-1}, (t_point){0,0,40}, 70, dt);
-	ini_ocvectors((t_point){0,0,40}, dt);
+	ini_elements((t_point){0,0,40}, dt);
 	return (draw_image(dt));
 }

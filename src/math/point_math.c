@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:44:42 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 08:06:30 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:27:11 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,56 @@ t_vector	v_p2p(t_point start, t_point end)
 	vector.y = end.y - start.y;
 	vector.z = end.z - start.z;
 	return (vector);
+}
+
+/**
+ * @brief creates a quadratic formula structure and calculates discriminant.
+ * Quadratic formula : 
+ * a*x^2 + b*x + c = 0
+ * @param a a factor
+ * @param b b factor
+ * @param c c factor
+ * @attention Quadratic formula is used to find x. Depending on the value 
+ * of discriminant there are no solutions (discriminant < 0), there is one
+ * solution (disctiminant = 0), or there are two solutions (discriminant > 0)
+ * The x formula is :
+ * x = (-b +- sqr(b^2 - 4ac)) / 2a
+ * discriminant = (b^2 - 4ac)
+ * @return quadratic formula structure containing a, b, c and discriminant
+ */
+t_qf	quadratic_formula(double a, double b, double c)
+{
+	t_qf	qf;
+
+	qf.a = a;
+	qf.b = b;
+	qf.c = c;
+	qf.discriminant = b * b - (4 * a * c);
+	return (qf);
+}
+
+/**
+ * @brief returns the shortest distance through solving the quadratic formula
+ * @param qf a, b, c and discriminant required to calculate x
+ * @attention Quadratic formula is used to find x. Depending on the value 
+ * of discriminant there are no solutions (discriminant < 0), there is one
+ * solution (disctiminant = 0), or there are two solutions (discriminant > 0)
+ * The x formula is :
+ * x = (-b +- sqr(b^2 - 4ac)) / 2a
+ * discriminant = (b^2 - 4ac)
+ * @return shortest distance (smallest x)
+ */
+double	d_shortest_distance(t_qf qf)
+{
+	double dist1;
+	double dist2;
+
+	if (qf.discriminant == 0)
+		return ((-1 * qf.b) / (2 * qf.a));
+	dist1 = ((-1 * qf.b) - sqrt(qf.discriminant)) / (2 * qf.a);
+	dist2 = ((-1 * qf.b) + sqrt(qf.discriminant)) / (2 * qf.a);
+	if (dist1 < dist2)
+		return (dist1);
+	else
+		return (dist2);
 }

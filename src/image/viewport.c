@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 10:40:59 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:05:16 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	ini_elements(t_point camera, t_dt *dt)
 	{
 		if (temp->type == SP || temp->type == PL || temp->type == CY)
 		{
-			temp->axis = temp->axis
+			temp->axis = v_normalize(temp->axis);
+			temp->oc = v_p2p(temp->center, camera);
 		}
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");
