@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 12:11:32 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 10:30:42 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef enum e_elemtype
  * @param type type of an element
  * @param center center of Sphere/Cylinder or point on plane
  * @param axis Normalized vector. Axis of cylinder/Plane face
+ * @param oc Vector from camera to center
  * @param color rgb color of element
  * @param diameter diameter of sphere/cylinder
  * @param height height of cylinder
@@ -162,6 +163,7 @@ typedef struct		s_elem
 	t_elemtype		type;
 	t_point			center;
 	t_vector		axis;
+	t_vector		oc;
 	t_rgb			color;
 	double			diameter;
 	double			height;

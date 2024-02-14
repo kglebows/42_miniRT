@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 10:19:57 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/14 10:34:48 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,6 @@ t_ok	render_mlx(t_dt *dt)
 		return (err("mlx image creation failed!"));
 	mlx_image_to_window(dt->mlx, dt->img, 0, 0);
 	ini_viewport((t_vector){0,0,-1}, (t_point){0,0,40}, 70, dt);
+	ini_ocvectors((t_point){0,0,40}, dt);
 	return (draw_image(dt));
 }
