@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 14:10:43 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:28:48 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,23 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl, t_dt *dt)
 	return (hit);
 }
 
-t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, t_dt *dt)
+t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m, t_dt *dt)
 {
-	
+	t_hit	side;
+
+	side.ray = hit.ray;
+	side.distance = hit.distance;
+	side.color = cy->color;
+	side.type = CY;
+	side.point = p_translate(v_scale(hit.ray.d, side.distance), hit.ray.o);
+	side.norm = v_normalize(v_subtract(v_p2p(cy->center, side.point),
+		v_scale(cy->axis, m)));
 }
 
 t_hit	ray_target_cylinder_caps(t_hit hit, t_elem *cy, t_dt *dt)
 {
+	t_hit	cap;
+
 	
 }
 
@@ -172,7 +182,7 @@ t_hit	ray_target_cylinder(t_ray ray, t_elem *cy, t_dt *dt)
 		hit.distance = d_shortest_distance(qf);
 		m = d_dot(ray.d, cy->axis) * hit.distance + d_dot(cy->oc, cy->axis);
 		if (m <= cy->height / 2 && m >= cy->height / -2)
-			return (ray_hit_cylinder_side(hit, cy, dt));
+			return (ray_hit_cylinder_side(hit, cy, m, dt));
 	}
 	return (ray_target_cylinder_caps(hit, cy, dt));
 }
