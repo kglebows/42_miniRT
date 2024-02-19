@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/07 16:10:27 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/19 15:54:52 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,58 @@ bool	ftstrisint(char *str)
 	return (true);
 }
 
-void	scene_split_validation(t_scene *scene, int element_id)
+void	validate(char *line)
 {
-	static int element_attr_count[9] = {3, 3, 4, 4, 4, 4, 5, 6, 5};
-	int i = 1;
+	const char	*valid_chars;
+	bool		valid_flag;
+	size_t		i;
+	int			comma_count;
 
-	while (scene->line[i])
+	valid_chars = "RAlcsp";
+	valid_flag = true;
+
+	if (!ft_strchr(valid_chars, line[0]))
+		valid_flag = false;
+	i = 2;
+	comma_count = 0;
+	while (line[i])
 	{
-		if (!ft_isalnum(scene->line[i]) && (scene->line[i] != ',' ||
-				scene->line[i] != ' ' || scene->line[i] != '-'))
-			exit(5);
+		if (!ft_isdigit(line[i]) && !(line[i] == ',' || line[i] == '-'
+			|| line[i] == ' ' || line[i] == '.'))
+				valid_flag = false;
+		if (line[i] == ',')
+			comma_count++;
 		i++;
 	}
+
+	if (line[0] == 'R' && comma_count != 0)
+		valid_flag = false;
+	if (line[0] == 'A' && comma_count != 2)
+		valid_flag = false;
+	if ((line[0] == 'l' || (line[0] == 'c' && line[1] == ' ') || (line[0] == 's' && line[1] == 'p'))
+		&& comma_count != 4)
+		valid_flag = false;
+	if (((line[0] == 'p' && line[1] == 'l') || (line[0] == 'c' && line[1] == 'y')) && comma_count != 6)
+		valid_flag = false;
+	if (!valid_flag)
+		exit(100);
+}
+void	scene_split_validation(t_scene *scene, int element_id)
+{
+	static size_t	element_attr_count[7] = {3, 3, 4, 4, 4, 4, 6};
+	int				i;
+
+	i = 1;
+	validate(scene->line);
 	scene->split = ft_split(scene->line, ' ');
 	if (ft_arraylen(scene->split) != element_attr_count[element_id])
-		exit(6);
+		exit(26);
 }
 
 void	parse_element(int element_id, t_scene *scene)
 {
-	parse_function_arr	function_arr[9] = {get_resol, get_ambilight, get_camera, get_light};
+	parse_function_arr	function_arr[7] = {get_resol, get_ambilight, get_camera, get_light, get_sp,
+		get_pl, get_cy};
 	t_elem				*new;
 
 	if (element_id > 2)
@@ -74,24 +106,29 @@ void	parse_element(int element_id, t_scene *scene)
 		new->next = NULL;
 	}
 	scene_split_validation(scene, element_id);
-	function_arr[element_id](scene, &new);
+	function_arr[element_id](scene);
 	scene->qtys[element_id]++;
 	free_char_array(scene->split);
 }
 void	pars_scene(char *file, t_scene *scene)
 {
 	int			fd;
-	static char	*s[9] = {"R ", "A ", "c ", "l ", "sp", "pl", "sq", "cy", "tr"};
+	static char	*s[7] = {"R ", "A ", "c ", "l ", "sp", "pl", "cy"};;
 	int			element_id;
-
+size_t len;
 	fd = ft_open(file);
 	scene->line = get_next_line(fd);
 	while (scene->line != NULL)
 	{
+		len = ft_strlen(scene->line);
+		if (len > 0 && scene->line[len - 1] == '\n')
+			scene->line[len - 1] = '\0';
+		// printf("%s\n", scene->line);
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
-		if (element_id < 9)
+		// printf("%d\n", element_id);
+		if (element_id < 7)
 			parse_element(element_id, scene);
 		free(scene->line);
 		scene->line = get_next_line(fd);

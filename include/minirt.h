@@ -12,11 +12,17 @@
 # include <unistd.h>
 
 void	pars_scene(char *file, t_scene *scene);
-void	get_resol(t_scene *scene, t_elem **new);
+void	get_resol(t_scene *scene);
 t_point	get_coord(char *attr);
-void	get_camera(t_scene *scene, t_elem **new);
-void get_light(t_scene *scene, t_elem **new);
-t_point	get_normal(char *str);
+void	get_camera(t_scene *scene);
+void get_light(t_scene *scene);
+t_vector	get_normal(char *str);
+void get_sp(t_scene *scene);
+
+void get_pl(t_scene *scene);
+
+void get_cy(t_scene *scene);
+
 
 double get_ratio(char *str);
 double	get_size(char *str);
@@ -24,26 +30,19 @@ double	get_size(char *str);
 bool	ft_strisint(char *str);
 bool	ft_str_isfloat(char *str);
 
-void	get_ambilight(t_scene *scene, t_elem **new);
+void	get_ambilight(t_scene *scene);
 double	ft_atof(const char *str);
 
 double	ft_atof(const char *str);
 size_t	ft_arraylen(char **s);
-void	get_rgb(t_scene *scene, char **split);
+t_rgb	get_rgb(char *split);
 bool	ft_isrgb(int n);
+t_vector get_vec_coord(char *attr);
 
 void	free_char_array(char **array);
 t_point		gen_coord(double x, double y, double z);
-t_point		v_add(t_point v, t_point u);
-
-t_point		v_sub(t_point v, t_point u);
-
-t_point		v_scale(t_point v, double f);
-
-t_point		v_cross(t_point v, t_point u);
-
-double		v_dot(t_point v, t_point u);
-
+void	t_elem_add_back(t_elem **lst, t_elem *new);
+void	t_cam_add_back(t_cam **lst, t_cam *new);
 
 
 #endif

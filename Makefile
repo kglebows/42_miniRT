@@ -6,7 +6,7 @@
 #    By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/03 15:50:54 by ekordi           ###   ########.fr        #
+#    Updated: 2024/02/18 14:39:52 by ekordi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ LIB_MLX	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRC_MLX	:= $(shell find ./src -iname "*.c")
 OBJ_MLX := ${SRC_MLX:.c=.o}
 
-SRCS	= main.c parse/parser.c parse/get_elem_utils.c parse/get_scene_elemets.c parse/get_rgb.c\
+SRCS	=	main.c parse/parser.c parse/get_elem_utils.c parse/get_scene_elemets.c\
+			parse/get_rgb.c\
+			parse/utils.c
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 

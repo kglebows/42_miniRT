@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 11:04:58 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/07 16:10:04 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:08:47 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ bool	ft_isrgb(int n)
 		return (true);
 	return (false);
 }
-void	get_rgb(t_scene *scene, char **split)
+t_rgb	get_rgb(char *rgb)
 {
+	t_rgb temp;
+	char **split = ft_split(rgb, ',');
 	int	i;
 
 	i = 0;
+	ft_bzero(&temp, 0);
 	while (i < 3)
 	{
 		if (ft_strisint(split[i]) == false)
@@ -31,7 +34,8 @@ void	get_rgb(t_scene *scene, char **split)
 			exit(3);
 		i++;
 	}
-	scene->ambilight.rgb.r = ft_atoi(split[0]);
-	scene->ambilight.rgb.g = ft_atoi(split[1]);
-	scene->ambilight.rgb.b = ft_atoi(split[2]);
+	temp.r = ft_atoi(split[0]);
+	temp.g = ft_atoi(split[1]);
+	temp.b = ft_atoi(split[2]);
+	return(temp);
 }

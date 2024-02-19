@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 09:38:02 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/08 09:38:02 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/18 14:42:30 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,41 @@ t_point		gen_coord(double x, double y, double z)
 	coord.y = y;
 	coord.z = z;
 	return (coord);
+}
+
+t_elem	*t_elem_last(t_elem *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
+}
+t_cam	*t_cam_last(t_cam *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
+}
+void	t_elem_add_back(t_elem **lst, t_elem *new)
+{
+	t_elem	*last;
+
+	last = t_elem_last(*lst);
+	if (!last)
+		*lst = new;
+	else
+		last -> next = new;
+}
+void	t_cam_add_back(t_cam **lst, t_cam *new)
+{
+	t_cam	*last;
+
+	last = t_cam_last(*lst);
+	if (!last)
+		*lst = new;
+	else
+		last -> next = new;
 }
