@@ -2,90 +2,75 @@
 
 t_scene	*initialize_scene(t_scene *scene)
 {
-    scene = ft_calloc(sizeof(t_scene), 1);
+	int i;
 
-    // Initialize all fields to default or NULL values
-    scene->line = NULL;
-    scene->split = NULL;
-    for (int i = 0; i < 9; i++) {
-        scene->qtys[i] = 0;
-    }
-    // Initialize resol and ambilight (assuming they're also structures with fields to initialize)
-
-	// scene->resol = initialize_resol(); // You need to define initialize_resol() appropriately
-    // scene->ambilight = initialize_ambilight(); // You need to define initialize_ambilight() appropriately
-
-    // // Initialize list pointers to NULL
-    scene->cam = NULL;
-    scene->light = NULL;
-    scene->sp = NULL;
-    scene->pl = NULL;
-    scene->cy = NULL;
-
-    return scene;
+	i = 0;
+	scene = ft_calloc(sizeof(t_scene), 1);
+	scene->line = NULL;
+	scene->split = NULL;
+	while (i < 9)
+		scene->qtys[i++] = 0;
+	scene->cam = NULL;
+	scene->light = NULL;
+	scene->sp = NULL;
+	scene->pl = NULL;
+	scene->cy = NULL;
+	return scene;
 }
 
-
-
-#include <stdio.h>
-#include "struct.h" // Assuming your structure definitions are in a header file named struct.h
 
 void print_scene(const t_scene *scene) {
-    // Print resolution
-    printf("Resolution: %dx%d\n", scene->resol.x, scene->resol.y);
+    printf("Resolution: %d x %d\n", scene->resol.x, scene->resol.y);
+    printf("Ambilight ratio: %f\n", scene->ambilight.ratio);
+    printf("Ambilight RGB: %d, %d, %d\n", scene->ambilight.rgb.r, scene->ambilight.rgb.g, scene->ambilight.rgb.b);
 
-    // Print ambilight
-    printf("Ambilight Ratio: %lf\n", scene->ambilight.ratio);
-    printf("Ambilight Color: R%d, G%d, B%d\n", scene->ambilight.rgb.r, scene->ambilight.rgb.g, scene->ambilight.rgb.b);
+    // Print camera information
+    printf("Cameras:\n");
+    t_cam *cam = scene->cam;
+    while (cam != NULL) {
+        printf("Point: (%f, %f, %f), Normal: (%f, %f, %f), FOV: %f\n", cam->point.x, cam->point.y, cam->point.z,
+               cam->normal.x, cam->normal.y, cam->normal.z, cam->fov);
+        cam = cam->next;
+    }
 
-    // Print camera
-    printf("Camera Position: (%lf, %lf, %lf)\n", scene->cam->point.x, scene->cam->point.y, scene->cam->point.z);
-    printf("Camera Normal: (%lf, %lf, %lf)\n", scene->cam->normal.x, scene->cam->normal.y, scene->cam->normal.z);
-    printf("Camera FOV: %f\n", scene->cam->fov);
-
-    // Print elements: light
+    // Print light elements
     printf("Lights:\n");
-    t_elem *current_light = scene->light;
-    while (current_light != NULL) {
-        printf("  Element Type: %d\n", current_light->type);
-        printf("  Element Center: (%lf, %lf, %lf)\n", current_light->center.x, current_light->center.y, current_light->center.z);
-        // Print other attributes of the light element as needed
-        current_light = current_light->next;
+    t_elem *light = scene->light;
+    while (light != NULL) {
+        printf("Center: (%f, %f, %f), Ratio: %f, Color: %d, %d, %d\n", light->center.x, light->center.y, light->center.z,
+               light->ratio, light->color.r, light->color.g, light->color.b);
+        light = light->next;
     }
 
-    // Print elements: sp
+    // Print sphere elements
     printf("Spheres:\n");
-    t_elem *current_sp = scene->sp;
-    while (current_sp != NULL) {
-        printf("  Element Type: %d\n", current_sp->type);
-        printf("  Element Center: (%lf, %lf, %lf)\n", current_sp->center.x, current_sp->center.y, current_sp->center.z);
-        // Print other attributes of the sphere element as needed
-        current_sp = current_sp->next;
+    t_elem *sp = scene->sp;
+    while (sp != NULL) {
+        printf("Center: (%f, %f, %f), Diameter: %f, Color: %d, %d, %d\n", sp->center.x, sp->center.y, sp->center.z,
+               sp->diameter, sp->color.r, sp->color.g, sp->color.b);
+        sp = sp->next;
     }
 
-    // Print elements: pl
+    // Print plane elements
     printf("Planes:\n");
-    t_elem *current_pl = scene->pl;
-    while (current_pl != NULL) {
-        printf("  Element Type: %d\n", current_pl->type);
-        printf("  Element Center: (%lf, %lf, %lf)\n", current_pl->center.x, current_pl->center.y, current_pl->center.z);
-        // Print other attributes of the plane element as needed
-        current_pl = current_pl->next;
+    t_elem *pl = scene->pl;
+    while (pl != NULL) {
+        printf("Center: (%f, %f, %f), Axis: (%f, %f, %f), Color: %d, %d, %d\n", pl->center.x, pl->center.y, pl->center.z,
+               pl->axis.x, pl->axis.y, pl->axis.z, pl->color.r, pl->color.g, pl->color.b);
+        pl = pl->next;
     }
 
-
-    // Print elements: cy
-    printf("Cylinders:\n");
-    t_elem *current_cy = scene->cy;
-    while (current_cy != NULL) {
-        printf("  Element Type: %d\n", current_cy->type);
-        printf("  Element Center: (%lf, %lf, %lf)\n", current_cy->center.x, current_cy->center.y, current_cy->center.z);
-        // Print other attributes of the cylinder element as needed
-        current_cy = current_cy->next;
-    }
-
-
+	// Print cylinder elements
+	printf("Cylinders:\n");
+	t_elem *cy = scene->cy;
+	while (cy != NULL) {
+	    printf("Center: (%f, %f, %f), Axis: (%f, %f, %f), Diameter: %f, Height: %f, Color: %d, %d, %d\n",
+	           cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y, cy->axis.z,
+	           cy->diameter, cy->height, cy->color.r, cy->color.g, cy->color.b);
+	    cy = cy->next;
 }
+}
+
 
 
 
@@ -105,5 +90,4 @@ int main(int argc, char **argv)
 NOTES FOR PARSING:
 
 -> Normalize (use normalize function on provided vector) all axises before putting them inside of structures.
--> If Camera direction or any object direction is [0,0,0] -> throw an error
 */

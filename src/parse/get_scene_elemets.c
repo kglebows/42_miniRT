@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/19 13:43:46 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:52:06 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ void get_cy(t_scene *scene)
 	temp->height = get_size(scene->split[4]);
 	temp->color = get_rgb(scene->split[5]);
 	temp->type = CY;
-	t_elem_add_back(&scene->pl, temp);
+	t_elem_add_back(&scene->cy, temp);
 }
 

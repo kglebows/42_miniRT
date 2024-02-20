@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:58:54 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/18 20:35:29 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/20 12:11:12 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ t_vector	get_normal(char *str)
 	t_vector	coord;
 
 	coord = get_vec_coord(str);
+	if (coord.x == 0.0 && coord.y == 0.0 && coord.z == 0.0)
+		exit(9);
 	if (coord.x >= -1.0 && coord.x <= 1.0 &&
 			coord.y >= -1.0 && coord.y <= 1.0 &&
 			coord.z >= -1.0 && coord.z <= 1.0)

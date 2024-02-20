@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/19 15:54:52 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:59:00 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,9 @@ size_t len;
 		len = ft_strlen(scene->line);
 		if (len > 0 && scene->line[len - 1] == '\n')
 			scene->line[len - 1] = '\0';
-		// printf("%s\n", scene->line);
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
-		// printf("%d\n", element_id);
 		if (element_id < 7)
 			parse_element(element_id, scene);
 		free(scene->line);
