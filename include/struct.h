@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 16:03:26 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:39:12 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct s_dt
 	t_vector		delta_u;
 	t_vector		delta_v;
 	t_point			pixel_center;
-	t_vector		cl;
+	double			cl_len;
 	t_elem			*elements;
 	t_rgb			bg;
 	t_rgb			a_rgb;

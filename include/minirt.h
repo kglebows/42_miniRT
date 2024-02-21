@@ -14,6 +14,14 @@
 #  define SSAA 0
 # endif
 
+# ifndef SPECULAR
+#  define SPECULAR 1
+# endif
+
+# ifndef DIFFUSE
+#  define DIFFUSE 0
+# endif
+
 /*exit*/
 t_ok		err(char *str);
 t_ok		msg(char *str);
@@ -44,5 +52,6 @@ t_qf		quadratic_formula(double a, double b, double c);
 double		d_shortest_distance(t_qf qf);
 t_rgb		rgb_add(t_rgb base, t_rgb add);
 t_rgb		rgb_combine(t_rgb base, t_rgb combine, double ratio);
+t_rgb		rgb_scale(t_rgb base, double ratio);
 
 #endif

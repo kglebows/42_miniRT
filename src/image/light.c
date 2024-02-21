@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:23:07 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 16:15:19 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:15:12 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,33 @@ t_rgb	background(t_hit hit, t_dt *dt)
 	return (bg);
 }
 
+t_rgb	light_specular(t_hit hit, t_ray ray, t_dt *dt)
+{
+	
+}
+
 t_rgb	light(t_hit hit, t_dt *dt)
 {
-	t_rgb		rgb;
+	t_rgb		ambient;
+	t_rgb		diffuse;
+	t_rgb		specular;
 	t_ray		ray;
+	t_hit		light;
 
 	if (hit.type == BG)
 		return (background(hit, dt));
-	rgb = rgb_combine(hit.color, dt->a_rgb, dt->a_ratio);
+	ambient = rgb_combine(hit.color, dt->a_rgb, dt->a_ratio);
 	ray.o = dt->l_pos;
 	ray.d = v_normalize(v_p2p(ray.o, hit.point));
-	
-	
-	
+	light = ray_shot(ray, dt);
+	if (hit.type == light.type && hit.distance - light.distance < dt->cl_len)
+	{
+		diffuse = rgb_scale(dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio);
+		specular = light_specular(hit, ray, dt);
+		if (DIFFUSE)
+			ambient = rgb_add(ambient, diffuse);
+		if (SPECULAR)
+			ambient = rgb_add(ambient, specular);
+	}
+	return (ambient);
 }
