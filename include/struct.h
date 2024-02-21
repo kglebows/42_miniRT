@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 13:06:32 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:52:31 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_dt
 	t_point			pixel_center;
 	t_point			cam_pos;
 	t_elem			*elements;
+	t_rgb			bg;
 }					t_dt;
 
 

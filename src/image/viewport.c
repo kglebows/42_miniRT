@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 11:05:16 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:47:40 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ini_viewport(t_vector c_dir, t_point c_pos, double fov, t_dt *dt)
 		dt->delta_v = v_normalize(v_cross((t_vector){1, 0, 0}, camera));
 	dt->delta_u = v_normalize(v_cross(camera, dt->delta_v));
 	dt->pixel_center = get_upperleftpixelcenter(camera, dt);
+	dt->bg = (t_rgb){135, 206, 235};
 }
 
 void	ini_elements(t_point camera, t_dt *dt)

@@ -40,5 +40,7 @@ t_point		p_translate(t_vector vector, t_point point);
 t_vector	v_p2p(t_point start, t_point end);
 t_qf		quadratic_formula(double a, double b, double c);
 double		d_shortest_distance(t_qf qf);
+t_rgb		rgb_add(t_rgb base, t_rgb add);
+t_rgb		rgb_combine(t_rgb base, t_rgb combine, double ratio);
 
 #endif
