@@ -20,11 +20,13 @@ t_ok		msg(char *str);
 
 /*image*/
 t_ok		render_mlx(t_dt *dt);
-void		ini_viewport(t_vector c_dir, t_point c_pos, double fov, t_dt *dt);
-void		ini_elements(t_point camera, t_dt *dt);
+void		ini_dt(t_dt *dt);
+void		ini_viewport(t_dt *dt);
+void		ini_elements(t_dt *dt);
 t_hit		ray_target_sphere(t_ray ray, t_elem *element, t_dt *dt);
 t_hit		ray_target_plane(t_ray ray, t_elem *element, t_dt *dt);
 t_hit		ray_target_cylinder(t_ray ray, t_elem *element, t_dt *dt);
+t_hit		ray_shot(t_ray ray, t_dt *dt);
 t_rgb		light(t_hit hit, t_dt *dt);
 
 /*math*/

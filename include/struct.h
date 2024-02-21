@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 11:52:31 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:03:26 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,17 @@ typedef struct s_dt
 	t_vector		delta_u;
 	t_vector		delta_v;
 	t_point			pixel_center;
-	t_point			cam_pos;
+	t_vector		cl;
 	t_elem			*elements;
 	t_rgb			bg;
+	t_rgb			a_rgb;
+	double			a_ratio;
+	t_point			c_pos;
+	t_vector		c_dir;
+	double			c_fov;
+	t_rgb			l_rgb;
+	t_point			l_pos;
+	double			l_ratio;
 }					t_dt;
 
 

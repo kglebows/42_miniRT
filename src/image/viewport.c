@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 11:47:40 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:14:37 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,40 @@ t_point	get_upperleftpixelcenter(t_vector camera, t_dt *dt)
 		v_scale(dt->delta_u, 0.5));
 	to_left_upper_corner = v_add(to_left_upper_corner,
 		v_scale(dt->delta_v, 0.5));
-	return (p_translate(to_left_upper_corner, dt->cam_pos));
+	return (p_translate(to_left_upper_corner, dt->c_pos));
 }
 
-void	ini_viewport(t_vector c_dir, t_point c_pos, double fov, t_dt *dt)
+void	ini_dt(t_dt *dt)
+{
+	dt->bg = (t_rgb){135, 206, 235};
+	dt->a_rgb = (t_rgb){135, 206, 235};
+	dt->a_ratio = 0.2;
+	dt->c_pos = (t_point){0, 0, 40};
+	dt->c_dir = (t_vector){0, 0, -1};
+	dt->c_fov = 70;
+	dt->l_rgb = (t_rgb){135, 206, 235};
+	dt->l_pos = (t_point){0, 0, 40};
+	dt->l_ratio = 0.4;
+	dt->cl = v_p2p(dt->l_pos, dt->c_pos);
+}
+
+void	ini_viewport(t_dt *dt)
 {
 	double		focal_length;
 	t_vector	camera;
 
-	dt->cam_pos = c_pos;
-	focal_length = dt->screen_width / (2 * tan((fov * (M_PI / 180)) / 2));
-	camera = v_scale(c_dir, focal_length);
-	if ((c_dir.x == 1 || c_dir.x == -1) && c_dir.y == 0 && c_dir.z == 0)
+	focal_length = dt->screen_width / (2 * tan((dt->c_fov * (M_PI / 180)) / 2));
+	camera = v_scale(dt->c_dir, focal_length);
+	if ((dt->c_dir.x == 1 || dt->c_dir.x == -1)
+		&& dt->c_dir.y == 0 && dt->c_dir.z == 0)
 		dt->delta_v = v_normalize(v_cross((t_vector){0, 0, 1}, camera));
 	else
 		dt->delta_v = v_normalize(v_cross((t_vector){1, 0, 0}, camera));
 	dt->delta_u = v_normalize(v_cross(camera, dt->delta_v));
 	dt->pixel_center = get_upperleftpixelcenter(camera, dt);
-	dt->bg = (t_rgb){135, 206, 235};
 }
 
-void	ini_elements(t_point camera, t_dt *dt)
+void	ini_elements(t_dt *dt)
 {
 	t_elem		*temp;
 
@@ -54,7 +67,7 @@ void	ini_elements(t_point camera, t_dt *dt)
 		if (temp->type == SP || temp->type == PL || temp->type == CY)
 		{
 			temp->axis = v_normalize(temp->axis);
-			temp->oc = v_p2p(temp->center, camera);
+			temp->oc = v_p2p(temp->center, dt->c_pos);
 		}
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");

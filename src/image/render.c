@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 13:07:20 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/21 14:04:05 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ t_ray	r_pixelray(u_int32_t x, u_int32_t y, t_dt *dt)
 	t_point		pixel;
 	t_ray		ray;
 
-	ray.o = dt->cam_pos;
+	ray.o = dt->c_pos;
 	pixel = p_translate(v_add(
 		v_scale(dt->delta_u, x),
 		v_scale(dt->delta_v, y)),
 		dt->pixel_center);
-	ray.d = v_normalize(v_p2p(dt->cam_pos, pixel));
+	ray.d = v_normalize(v_p2p(dt->c_pos, pixel));
 	return (ray);
 }
 
-t_rgb	ray_shot(t_ray ray, t_dt *dt)
+t_hit	ray_shot(t_ray ray, t_dt *dt)
 {
 	t_elem		*temp;
 	t_hit		hit;
@@ -57,7 +57,7 @@ t_rgb	ray_shot(t_ray ray, t_dt *dt)
 			hit = temp_hit;
 		temp = temp->next;
 	}
-	return (light(hit, dt));
+	return (hit);
 }
 
 /**
@@ -76,14 +76,14 @@ t_rgb	pixel_colour(u_int32_t x, u_int32_t y, t_dt *dt)
 	t_rgb	ss[5];
 
 	if (SSAA == 0)
-		rgb = ray_shot(r_pixelray(x, y, dt), dt);
+		rgb = light(ray_shot(r_pixelray(x, y, dt), dt), dt);
 	else
 	{
-		ss[0] = ray_shot(r_pixelray(x, y, dt), dt);
-		ss[1] = ray_shot(r_pixelray(x + 0.5, y, dt), dt);
-		ss[2] = ray_shot(r_pixelray(x - 0.5, y, dt), dt);
-		ss[3] = ray_shot(r_pixelray(x, y + 0.5, dt), dt);
-		ss[4] = ray_shot(r_pixelray(x, y - 0.5, dt), dt);
+		ss[0] = light(ray_shot(r_pixelray(x, y, dt), dt), dt);
+		ss[1] = light(ray_shot(r_pixelray(x + 0.5, y, dt), dt), dt);
+		ss[2] = light(ray_shot(r_pixelray(x - 0.5, y, dt), dt), dt);
+		ss[3] = light(ray_shot(r_pixelray(x, y + 0.5, dt), dt), dt);
+		ss[4] = light(ray_shot(r_pixelray(x, y - 0.5, dt), dt), dt);
 		rgb.r = round((ss[0].r + ss[1].r + ss[2].r + ss[3].r + ss[4].r) / 5);
 		rgb.g = round((ss[0].g + ss[1].g + ss[2].g + ss[3].g + ss[4].g) / 5);
 		rgb.b = round((ss[0].b + ss[1].b + ss[2].b + ss[3].b + ss[4].b) / 5);
@@ -138,7 +138,8 @@ t_ok	render_mlx(t_dt *dt)
 	if (!dt->img)
 		return (err("mlx image creation failed!"));
 	mlx_image_to_window(dt->mlx, dt->img, 0, 0);
-	ini_viewport((t_vector){0,0,-1}, (t_point){0,0,40}, 70, dt);
-	ini_elements((t_point){0,0,40}, dt);
+	ini_dt(dt);
+	ini_viewport(dt);
+	ini_elements(dt);
 	return (draw_image(dt));
 }
