@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/20 11:52:06 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:26:44 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	get_resol(t_scene *scene)
 		scene->resol.y = ft_atoi(scene->split[2]);
 	}
 	else
-		exit(1);
+	{	ft_putstr_fd("Invalid Resolution", 2);
+		exit(EXIT_FAILURE);}
 }
 
 void	get_ambilight(t_scene *scene)
@@ -40,8 +41,10 @@ void	get_ambilight(t_scene *scene)
 	}
 	else
 	{
-		exit(2);
 		free_char_array(split);
+		ft_putstr_fd("Invalid ambilight", 2);
+		exit(EXIT_FAILURE);
+}
 	}
 }
 

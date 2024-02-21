@@ -6,16 +6,25 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/20 11:59:00 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:21:11 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+int checkFileType(const char *filename) {
+    const char *extension = ft_strrchr(filename, '.');
+    if (extension != NULL && ft_strncmp(extension, ".rt", 3) == 0) {
+        return 1;
+    } else {
+		ft_putstr_fd("Error: File is not of type '.rt'\n", 2);
+        exit(EXIT_FAILURE);
+    }
+}
 
 int	ft_open(char *argv)
 {
 	int	fd;
-
+	checkFileType(argv);
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
 	{
@@ -30,6 +39,7 @@ int	ft_open(char *argv)
 	}
 	return (fd);
 }
+
 
 bool	ftstrisint(char *str)
 {
@@ -78,7 +88,7 @@ void	validate(char *line)
 	if (((line[0] == 'p' && line[1] == 'l') || (line[0] == 'c' && line[1] == 'y')) && comma_count != 6)
 		valid_flag = false;
 	if (!valid_flag)
-		exit(100);
+		{exit(EXIT_FAILURE);}
 }
 void	scene_split_validation(t_scene *scene, int element_id)
 {
@@ -89,22 +99,14 @@ void	scene_split_validation(t_scene *scene, int element_id)
 	validate(scene->line);
 	scene->split = ft_split(scene->line, ' ');
 	if (ft_arraylen(scene->split) != element_attr_count[element_id])
-		exit(26);
+		{ft_putstr_fd("Invalid number of attributes", 2);exit(EXIT_FAILURE);}
 }
 
 void	parse_element(int element_id, t_scene *scene)
 {
 	parse_function_arr	function_arr[7] = {get_resol, get_ambilight, get_camera, get_light, get_sp,
 		get_pl, get_cy};
-	t_elem				*new;
 
-	if (element_id > 2)
-	{
-		new = NULL;
-		new = ft_calloc(sizeof(t_elem), 1);
-		ft_bzero(new, 0);
-		new->next = NULL;
-	}
 	scene_split_validation(scene, element_id);
 	function_arr[element_id](scene);
 	scene->qtys[element_id]++;

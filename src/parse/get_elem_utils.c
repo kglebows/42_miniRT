@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:58:54 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/20 12:11:12 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:33:00 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ t_point get_coord(char *attr)
 			ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
 	{
 		free_char_array(split);
-		exit(6);
+		ft_putstr_fd("wrong coordinates", 2);
+		exit(EXIT_FAILURE);
 	}
 	coord.x = ft_atof(split[0]);
 	coord.y = ft_atof(split[1]);
@@ -101,8 +102,9 @@ t_vector get_vec_coord(char *attr)
 	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0]) &&
 			ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
 	{
+		ft_putstr_fd("Invalid vector", 2);
 		free_char_array(split);
-		exit(16);
+		exit(EXIT_FAILURE);
 	}
 	coord.x = ft_atof(split[0]);
 	coord.y = ft_atof(split[1]);
@@ -117,7 +119,7 @@ double get_ratio(char *str)
 
 	nbr = ft_atof(str);
 	if (!(nbr >= 0.0 && nbr <= 1.0))
-		exit(7);
+		{ft_putstr_fd("Invalid ratio", 2);exit(EXIT_FAILURE);}
 	return (nbr);
 }
 double	get_size(char *str)
@@ -126,7 +128,7 @@ double	get_size(char *str)
 
 	nbr = ft_atof(str);
 	if (nbr < 0.0)
-		exit(8);
+		{ft_putstr_fd("Invalid diameter size", 2);exit(EXIT_FAILURE);}
 	return (nbr);
 }
 
@@ -135,12 +137,11 @@ t_vector	get_normal(char *str)
 	t_vector	coord;
 
 	coord = get_vec_coord(str);
-	if (coord.x == 0.0 && coord.y == 0.0 && coord.z == 0.0)
-		exit(9);
 	if (coord.x >= -1.0 && coord.x <= 1.0 &&
 			coord.y >= -1.0 && coord.y <= 1.0 &&
-			coord.z >= -1.0 && coord.z <= 1.0)
+			coord.z >= -1.0 && coord.z <= 1.0 &&
+			coord.x != 0.0 && coord.y != 0.0 && coord.z != 0.0)
 		return(coord);
 	else
-		exit(9);
+		{ft_putstr_fd("Invalid vector", 2);exit(EXIT_FAILURE);}
 }
