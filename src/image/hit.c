@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 08:59:11 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:30:36 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
  * @ref https://raytracing.github.io/books/RayTracingInOneWeekend.html
  * @return hit of sphere type if hit or background type if no-hit
 */
-t_hit	ray_target_sphere(t_ray ray, t_elem *sp, t_dt *dt)
+t_hit	ray_target_sphere(t_ray ray, t_elem *sp)
 {
 	t_hit		hit;
 	t_qf		qf;
@@ -51,7 +51,7 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *sp, t_dt *dt)
 	{
 		hit.type = SP;
 		hit.color = sp->color;
-		hit.distance = d_closest_distance(qf);
+		hit.distance = d_shortest_distance(qf);
 		hit.point = p_translate(
 			v_scale(ray.d, hit.distance), ray.o);
 		hit.norm = v_normalize(v_p2p(sp->center, hit.point));
@@ -80,7 +80,7 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *sp, t_dt *dt)
  * @ref https://shorturl.at/abV56
  * @return hit of plane type if hit or background type if no-hit
 */
-t_hit	ray_target_plane(t_ray ray, t_elem *pl, t_dt *dt)
+t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 {
 	t_hit		hit;
 	double		denominator;

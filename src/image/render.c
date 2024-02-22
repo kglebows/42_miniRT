@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 14:04:05 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:34:26 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ t_hit	ray_shot(t_ray ray, t_dt *dt)
 	while (temp != NULL)
 	{
 		if (temp->type == SP)
-			temp_hit = ray_target_sphere(ray, temp, dt);
+			temp_hit = ray_target_sphere(ray, temp);
 		else if (temp->type == PL)
-			temp_hit = ray_target_plane(ray, temp, dt);
+			temp_hit = ray_target_plane(ray, temp);
 		else if (temp->type == CY)
-			temp_hit = ray_target_cylinder(ray, temp, dt);
+			temp_hit = ray_target_cylinder(ray, temp);
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");
 		if (temp_hit.type != BG 

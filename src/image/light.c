@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:23:07 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 17:15:12 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:25:13 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,15 @@ t_rgb	background(t_hit hit, t_dt *dt)
 
 t_rgb	light_specular(t_hit hit, t_ray ray, t_dt *dt)
 {
-	
+	t_vector	reflect;
+	double		specular;
+	t_rgb		rgb;
+
+	reflect = v_subtract(v_scale(hit.norm, 2 * d_dot(hit.norm, ray.d)), ray.d);
+	hit.ray.d = v_scale(hit.ray.d, -1);
+	specular = pow(fmax(d_dot(hit.ray.d, reflect) , 0), dt->shiness);
+	rgb = rgb_scale(dt->l_rgb, specular * dt->l_ratio);
+	return (rgb);
 }
 
 t_rgb	light(t_hit hit, t_dt *dt)

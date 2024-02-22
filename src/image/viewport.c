@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 16:44:04 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:20:33 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ini_dt(t_dt *dt)
 	dt->l_pos = (t_point){0, 0, 40};
 	dt->l_ratio = 0.4;
 	dt->cl_len = d_length(v_p2p(dt->l_pos, dt->c_pos)) + 1e-6;
+	dt->shiness = 50;
 }
 
 void	ini_viewport(t_dt *dt)

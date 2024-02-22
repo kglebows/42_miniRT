@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m, t_dt *dt)
+t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m)
 {
 	t_hit	side;
 
@@ -11,6 +11,7 @@ t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m, t_dt *dt)
 	side.point = p_translate(v_scale(hit.ray.d, side.distance), hit.ray.o);
 	side.norm = v_normalize(v_subtract(v_p2p(cy->center, side.point),
 		v_scale(cy->axis, m)));
+	return (side);
 }
 
 t_elem	cy_cap(t_elem *cy, int is_top)
@@ -62,7 +63,7 @@ t_elem	cy_cap(t_elem *cy, int is_top)
  * @ref https://mrl.cs.nyu.edu/~dzorin/rend05/lecture2.pdf
  * @return hit of plane type if hit or background type if no-hit
 */
-t_hit	ray_target_cap(t_ray ray, t_elem pl, t_dt *dt)
+t_hit	ray_target_cap(t_ray ray, t_elem pl)
 {
 	t_hit		hit;
 	double		denominator;
@@ -88,13 +89,13 @@ t_hit	ray_target_cap(t_ray ray, t_elem pl, t_dt *dt)
 	return (hit);
 }
 
-t_hit	ray_target_cylinder_caps(t_hit hit, t_elem *cy, t_dt *dt)
+t_hit	ray_target_cylinder_caps(t_hit hit, t_elem *cy)
 {
 	t_hit		top;
 	t_hit		bot;
 
-	top = ray_target_cap(hit.ray, cy_cap(cy, 1), dt);
-	bot = ray_target_cap(hit.ray, cy_cap(cy, 0), dt);
+	top = ray_target_cap(hit.ray, cy_cap(cy, 1));
+	bot = ray_target_cap(hit.ray, cy_cap(cy, 0));
 	if (top.type == BG && bot.type == BG)
 		return (top);
 	if (top.type == PL && bot.type == BG)
@@ -148,7 +149,7 @@ t_hit	ray_target_cylinder_caps(t_hit hit, t_elem *cy, t_dt *dt)
  * @ref https://shorturl.at/lDJ67
  * @return hit of cylinder type if hit or background type if no-hit
 */
-t_hit	ray_target_cylinder(t_ray ray, t_elem *cy, t_dt *dt)
+t_hit	ray_target_cylinder(t_ray ray, t_elem *cy)
 {
 	t_hit		hit;
 	t_qf		qf;
@@ -167,7 +168,7 @@ t_hit	ray_target_cylinder(t_ray ray, t_elem *cy, t_dt *dt)
 		hit.distance = d_shortest_distance(qf);
 		m = d_dot(ray.d, cy->axis) * hit.distance + d_dot(cy->oc, cy->axis);
 		if (m <= cy->height / 2 && m >= cy->height / -2)
-			return (ray_hit_cylinder_side(hit, cy, m, dt));
+			return (ray_hit_cylinder_side(hit, cy, m));
 	}
-	return (ray_target_cylinder_caps(hit, cy, dt));
+	return (ray_target_cylinder_caps(hit, cy));
 }

@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/21 16:39:12 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:27:31 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ typedef enum e_ok
 	KO
 }			t_ok;
 
+/**
+ * @brief Type of element
+ * @param BG Background
+ * @param SP Sphere
+ * @param PL Plane
+ * @param CY Cylinder
+ */
+typedef enum e_elemtype
+{
+	BG,
+	SP,
+	PL,
+	CY
+}			t_elemtype;
 
 /**
  * @brief RGB colour representation. Values of 0-255
@@ -102,6 +116,29 @@ typedef struct s_hit
 }				t_hit;
 
 /**
+ * @brief Unified sturcture for list of all elements.
+ * @param type type of an element
+ * @param center center of Sphere/Cylinder or point on plane
+ * @param axis Normalized vector. Axis of cylinder/Plane face
+ * @param oc Vector from center to camera
+ * @param color rgb color of element
+ * @param diameter diameter of sphere/cylinder
+ * @param height height of cylinder
+ * @param next next element on the list. NULL == end of list
+ */
+typedef struct		s_elem
+{
+	t_elemtype		type;
+	t_point			center;
+	t_vector		axis;
+	t_vector		oc;
+	t_rgb			color;
+	double			diameter;
+	double			height;
+	struct s_elem	*next;
+}					t_elem;
+
+/**
  * @brief Main data structure that holds all information needed for the program.
  */
 typedef struct s_dt
@@ -124,6 +161,7 @@ typedef struct s_dt
 	t_rgb			l_rgb;
 	t_point			l_pos;
 	double			l_ratio;
+	double			shiness;
 }					t_dt;
 
 
@@ -142,43 +180,7 @@ typedef struct		s_scene
 	t_resol			resol;
 }					t_scene;
 
-/**
- * @brief Type of element
- * @param BG Background
- * @param SP Sphere
- * @param PL Plane
- * @param CY Cylinder
- */
-typedef enum e_elemtype
-{
-	BG,
-	SP,
-	PL,
-	CY
-}			t_elemtype;
 
-/**
- * @brief Unified sturcture for list of all elements.
- * @param type type of an element
- * @param center center of Sphere/Cylinder or point on plane
- * @param axis Normalized vector. Axis of cylinder/Plane face
- * @param oc Vector from center to camera
- * @param color rgb color of element
- * @param diameter diameter of sphere/cylinder
- * @param height height of cylinder
- * @param next next element on the list. NULL == end of list
- */
-typedef struct		s_elem
-{
-	t_elemtype		type;
-	t_point			center;
-	t_vector		axis;
-	t_vector		oc;
-	t_rgb			color;
-	double			diameter;
-	double			height;
-	struct s_elem	*next;
-}					t_elem;
 
 
 /**
