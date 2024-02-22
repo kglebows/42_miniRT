@@ -12,9 +12,7 @@ t_scene	*initialize_scene(t_scene *scene)
 		scene->qtys[i++] = 0;
 	scene->cam = NULL;
 	scene->light = NULL;
-	scene->sp = NULL;
-	scene->pl = NULL;
-	scene->cy = NULL;
+	scene->elements = NULL;
 	return scene;
 }
 
@@ -43,32 +41,42 @@ void print_scene(const t_scene *scene) {
     }
 
     // Print sphere elements
-    printf("Spheres:\n");
-    t_elem *sp = scene->sp;
-    while (sp != NULL) {
-        printf("Center: (%f, %f, %f), Diameter: %f, Color: %d, %d, %d\n", sp->center.x, sp->center.y, sp->center.z,
-               sp->diameter, sp->color.r, sp->color.g, sp->color.b);
-        sp = sp->next;
+    printf("ELEMENTS:\n");
+    t_elem *sp = scene->elements;
+    while (sp != NULL)
+	{
+		if (sp->type == SP)
+		{
+			printf("SP || Center: (%f, %f, %f), Diameter: %f, Color: %d, %d, %d\n", sp->center.x, sp->center.y, sp->center.z,
+				sp->diameter, sp->color.r, sp->color.g, sp->color.b);
+		}
+		if (sp->type == PL)
+		{
+			printf("PL || Center: (%f, %f, %f), Axis: (%f, %f, %f), Color: %d, %d, %d\n", sp->center.x, sp->center.y, sp->center.z,
+				sp->axis.x, sp->axis.y, sp->axis.z, sp->color.r, sp->color.g, sp->color.b);
+		}
+		if (sp->type == CY)
+		{
+			printf("CY || Center: (%f, %f, %f), Axis: (%f, %f, %f), Diameter: %f, Height: %f, Color: %d, %d, %d\n",
+				sp->center.x, sp->center.y, sp->center.z, sp->axis.x, sp->axis.y, sp->axis.z,
+				sp->diameter, sp->height, sp->color.r, sp->color.g, sp->color.b);
+		}
+			sp = sp->next;
     }
 
-    // Print plane elements
-    printf("Planes:\n");
-    t_elem *pl = scene->pl;
-    while (pl != NULL) {
-        printf("Center: (%f, %f, %f), Axis: (%f, %f, %f), Color: %d, %d, %d\n", pl->center.x, pl->center.y, pl->center.z,
-               pl->axis.x, pl->axis.y, pl->axis.z, pl->color.r, pl->color.g, pl->color.b);
-        pl = pl->next;
-    }
+//     // Print spane elements
+//     printf("Planes:\n");
+//     t_elem *pl = scene->pl;
+//     while (pl != NULL) {
+//         pl = pl->next;
+//     }
 
-	// Print cylinder elements
-	printf("Cylinders:\n");
-	t_elem *cy = scene->cy;
-	while (cy != NULL) {
-	    printf("Center: (%f, %f, %f), Axis: (%f, %f, %f), Diameter: %f, Height: %f, Color: %d, %d, %d\n",
-	           cy->center.x, cy->center.y, cy->center.z, cy->axis.x, cy->axis.y, cy->axis.z,
-	           cy->diameter, cy->height, cy->color.r, cy->color.g, cy->color.b);
-	    cy = cy->next;
-}
+// 	// Print cylinder elements
+// 	printf("Cylinders:\n");
+// 	t_elem *cy = scene->cy;
+// 	while (cy != NULL) {
+// 	    cy = cy->next;
+// }
 }
 
 
@@ -78,17 +86,16 @@ void print_scene(const t_scene *scene) {
 int main(int argc, char **argv)
 {
 	t_dt	dt;
+	t_scene	*scene = NULL;
 
-
-	// if (argc != 2)
-	// 	return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
-	t_scene *scene = NULL;
+	if (argc != 2)
+		return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
 	scene = initialize_scene(scene);
-	(void)argc;
-	(void)argv;
+	dt.scene = scene;
+	pars_scene(argv[1], scene);
+	printf("hello\n");
+	print_scene(scene);
 	render_mlx(&dt);
-	// print_scene(scene);
-	// pars_scene(argv[1], scene);
 	mlx_loop(dt.mlx);
 	return 0;
 }

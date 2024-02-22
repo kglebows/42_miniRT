@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/21 12:21:11 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:00:06 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	validate(char *line)
 	size_t		i;
 	int			comma_count;
 
-	valid_chars = "RAlcsp";
+	valid_chars = "RALCsp";
 	valid_flag = true;
 
 	if (!ft_strchr(valid_chars, line[0]))
@@ -82,7 +82,7 @@ void	validate(char *line)
 		valid_flag = false;
 	if (line[0] == 'A' && comma_count != 2)
 		valid_flag = false;
-	if ((line[0] == 'l' || (line[0] == 'c' && line[1] == ' ') || (line[0] == 's' && line[1] == 'p'))
+	if ((line[0] == 'L' || (line[0] == 'C' && line[1] == ' ') || (line[0] == 's' && line[1] == 'p'))
 		&& comma_count != 4)
 		valid_flag = false;
 	if (((line[0] == 'p' && line[1] == 'l') || (line[0] == 'c' && line[1] == 'y')) && comma_count != 6)
@@ -108,16 +108,18 @@ void	parse_element(int element_id, t_scene *scene)
 		get_pl, get_cy};
 
 	scene_split_validation(scene, element_id);
+			printf("hello motherfucker 2: return of motherfucker %d\n", element_id);
 	function_arr[element_id](scene);
 	scene->qtys[element_id]++;
 	free_char_array(scene->split);
 }
 void	pars_scene(char *file, t_scene *scene)
 {
-	int			fd;
-	static char	*s[7] = {"R ", "A ", "c ", "l ", "sp", "pl", "cy"};;
-	int			element_id;
-size_t len;
+	int				fd;
+	static char		*s[7] = {"R ", "A ", "C ", "L ", "sp", "pl", "cy"};
+	int				element_id;
+	size_t			len;
+
 	fd = ft_open(file);
 	scene->line = get_next_line(fd);
 	while (scene->line != NULL)
@@ -128,9 +130,13 @@ size_t len;
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
+		printf("hello motherfucker : %s : %d \n", scene->line, element_id);
 		if (element_id < 7)
+		{
 			parse_element(element_id, scene);
+		}
 		free(scene->line);
 		scene->line = get_next_line(fd);
 	}
+	printf("hello motherfucker 3: freefuck\n");
 }

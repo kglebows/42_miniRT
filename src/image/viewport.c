@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 15:20:33 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:39:09 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,17 @@ t_point	get_upperleftpixelcenter(t_vector camera, t_dt *dt)
 void	ini_dt(t_dt *dt)
 {
 	dt->bg = (t_rgb){135, 206, 235};
-	dt->a_rgb = (t_rgb){135, 206, 235};
-	dt->a_ratio = 0.2;
-	dt->c_pos = (t_point){0, 0, 40};
-	dt->c_dir = (t_vector){0, 0, -1};
-	dt->c_fov = 70;
-	dt->l_rgb = (t_rgb){135, 206, 235};
-	dt->l_pos = (t_point){0, 0, 40};
-	dt->l_ratio = 0.4;
+	dt->a_rgb = dt->scene->ambilight.rgb;
+	dt->a_ratio = dt->scene->ambilight.ratio;
+	dt->c_pos = dt->scene->cam->point;
+	dt->c_dir = v_normalize(dt->scene->cam->normal);
+	dt->c_fov = dt->scene->cam->fov;
+	dt->l_rgb = dt->scene->light->color;
+	dt->l_pos = dt->scene->light->center;
+	dt->l_ratio = dt->scene->light->ratio;
 	dt->cl_len = d_length(v_p2p(dt->l_pos, dt->c_pos)) + 1e-6;
 	dt->shiness = 50;
+	dt->elements = dt->scene->elements;
 }
 
 void	ini_viewport(t_dt *dt)
