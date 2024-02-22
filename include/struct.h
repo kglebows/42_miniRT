@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 15:27:31 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:47:04 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,16 @@ typedef struct		s_elem
 	struct s_elem	*next;
 }					t_elem;
 
+typedef struct		s_cam
+{
+	t_point			point;
+	t_point			normal;
+	float			fov;
+	struct s_cam	*next;
+}					t_cam;
+
+
+
 /**
  * @brief Main data structure that holds all information needed for the program.
  */
@@ -171,6 +181,36 @@ typedef struct		s_resol
 	int				y;
 }					t_resol;
 
+typedef struct		s_ambilight
+{
+	double			ratio;
+	t_rgb			rgb;
+}					t_ambilight;
+
+/**
+ * @brief Unified sturcture for list of all elements.
+ * @param type type of an element
+ * @param center center of Sphere/Cylinder or point on plane
+ * @param axis Normalized vector. Axis of cylinder/Plane face
+ * @param oc Vector from center to camera
+ * @param color rgb color of element
+ * @param diameter diameter of sphere/cylinder
+ * @param height height of cylinder
+ * @param next next element on the list. NULL == end of list
+ */
+typedef struct		s_elem
+{
+	t_elemtype		type;
+	t_point			center;
+	t_vector		axis;
+	t_vector		oc;
+	t_rgb			color;
+	double			ratio;
+	double			diameter;
+	double			height;
+	struct s_elem	*next;
+}					t_elem;
+
 
 typedef struct		s_scene
 {
@@ -178,6 +218,12 @@ typedef struct		s_scene
 	char			**split;
 	short int		qtys[9];
 	t_resol			resol;
+	t_ambilight		ambilight;
+	t_cam			*cam;
+	t_elem			*light;
+	t_elem			*sp;
+	t_elem			*pl;
+	t_elem			*cy;
 }					t_scene;
 
 

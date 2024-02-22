@@ -6,14 +6,14 @@
 #    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/21 11:34:10 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/22 15:39:16 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minirt
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 CFLAGS_MLX := -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX := ./lib/mlx
@@ -28,6 +28,7 @@ SRCDIR = ./src
 
 LIBMLXA := $(LIBMLX)/build/libmlx42.a
 MLX_PATH := lib/mlx
+LIBFT_PATH :=  lib/libft
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIB_MLX	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
@@ -44,7 +45,12 @@ SRCS	=	main.c\
 			math/color_math.c\
 			math/vector_math.c\
 			math/vector_product.c\
-			math/point_math.c
+			math/point_math.c\
+			parse/parser.c\
+			parse/get_elem_utils.c\
+			parse/get_scene_elemets.c\
+			parse/get_rgb.c\
+			parse/utils.c
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 
