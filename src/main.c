@@ -77,17 +77,18 @@ void print_scene(const t_scene *scene) {
 
 int main(int argc, char **argv)
 {
-	if (argc != 2)
-		return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
+	t_dt	dt;
+
+
+	// if (argc != 2)
+	// 	return(ft_putstr_fd("invalid nummber of aguments", 2), 1);
 	t_scene *scene = NULL;
 	scene = initialize_scene(scene);
-	pars_scene(argv[1], scene);
-	print_scene(scene);
+	(void)argc;
+	(void)argv;
+	render_mlx(&dt);
+	// print_scene(scene);
+	// pars_scene(argv[1], scene);
+	mlx_loop(dt.mlx);
 	return 0;
 }
-/*
-
-NOTES FOR PARSING:
-
--> Normalize (use normalize function on provided vector) all axises before putting them inside of structures.
-*/

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/18 14:39:52 by ekordi           ###   ########.fr        #
+#    Updated: 2024/02/22 15:39:16 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,20 @@ LIB_MLX	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRC_MLX	:= $(shell find ./src -iname "*.c")
 OBJ_MLX := ${SRC_MLX:.c=.o}
 
-SRCS	=	main.c parse/parser.c parse/get_elem_utils.c parse/get_scene_elemets.c\
+SRCS	=	main.c\
+			exit/error.c\
+			image/render.c\
+			image/viewport.c\
+			image/hit.c\
+			image/hit_cy.c\
+			image/light.c\
+			math/color_math.c\
+			math/vector_math.c\
+			math/vector_product.c\
+			math/point_math.c\
+			parse/parser.c\
+			parse/get_elem_utils.c\
+			parse/get_scene_elemets.c\
 			parse/get_rgb.c\
 			parse/utils.c
 
@@ -60,9 +73,9 @@ init-submodules:
 		git submodule init $(MLX_PATH); \
 		git submodule update $(MLX_PATH); \
 	fi
-	@if [ -z "$(shell ls -A $(LIBFT_PATH))" ]; then \
-		git submodule init $(LIBFT_PATH); \
-		git submodule update $(LIBFT_PATH); \
+	@if [ -z "$(shell ls -A $(LIBFTDIR))" ]; then \
+		git submodule init $(LIBFTDIR); \
+		git submodule update $(LIBFTDIR); \
 	fi
 
 $(LIBMLXA):

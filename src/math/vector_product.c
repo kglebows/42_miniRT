@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:04:45 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/01 10:18:20 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/13 07:30:53 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * for normalized vectors == 1 means the vectors are the same,
  * and == -1 means are in direct oposition.
  */
-double	v_dot(t_vector vector1, t_vector vector2)
+double	d_dot(t_vector vector1, t_vector vector2)
 {
 	double		dot;
 
