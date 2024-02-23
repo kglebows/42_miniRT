@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 10:43:16 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:32:24 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,26 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	t_hit		hit;
 	double		denominator;
 
-	denominator = d_dot(v_normalize(v_scale(ray.d, 1)), v_normalize(v_scale(pl->axis, -1)));
+	denominator = d_dot(v_normalize(v_scale(ray.d, 1)), v_normalize(v_scale(pl->axis, 1)));
 	// if (denominator < 0 && denominator != 2.2250738585072014e-308)
 	// 	denominator *= -1;
 	hit.ray = ray;
-	if (denominator < 1e-6)
+	if (denominator < 1e-6 && denominator > -1e-6)
 		hit.type = BG;
 	else
 	{
 		hit.type = PL;
 		hit.color = pl->color;
-		hit.distance = d_dot(v_p2p(ray.o, pl->center), pl->axis) * -1
+		// hit.distance = d_dot(v_p2p(ray.o, pl->center), v_scale(pl->axis, -1))
+		hit.distance = d_dot(v_p2p(pl->center, ray.o), v_scale(pl->axis, -1)) 
 			/ denominator;
-		if (hit.distance < 0)
-			hit.type = BG;
+		// if (hit.distance < 0)
+		// 	hit.type = BG;
 		hit.point = p_translate(
 			v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl->axis;
+		if (denominator >= 0)
+			hit.norm = v_scale(pl->axis, -1);
 	}
 	return (hit);
 }

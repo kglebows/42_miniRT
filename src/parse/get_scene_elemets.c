@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/23 12:34:48 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:52:26 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	get_ambilight(t_scene *scene)
 	double	ratio;
 	char	**split;
 
-	printf("Inside ambient!\n");
+	// printf("Inside ambient!\n");
 	split = ft_split(scene->split[2], ',');
 	ft_bzero(&scene->ambilight, 0);
 	if (ft_str_isfloat(scene->split[1]) && ft_arraylen(split) == 3)
@@ -52,7 +52,7 @@ void get_camera(t_scene *scene)
 {
 	t_cam	*tmp;
 
-	printf("Inside caemra!\n");
+	// printf("Inside caemra!\n");
 	tmp = (t_cam*)malloc(sizeof(t_cam));
 	ft_bzero(tmp, sizeof(t_cam));
 	tmp->point = get_coord(scene->split[1]);
@@ -66,7 +66,7 @@ void get_light(t_scene *scene)
 {
 	t_elem *temp;
 
-	printf("Inside lighy!\n");
+	// printf("Inside lighy!\n");
 	temp = (t_elem*)malloc(sizeof(t_elem));
 	ft_bzero(temp, sizeof(t_elem));
 	temp->center = get_coord(scene->split[1]);
@@ -80,7 +80,7 @@ void get_sp(t_scene *scene)
 	t_elem *temp;
 
 	temp = (t_elem*)malloc(sizeof(t_elem));
-	printf("Inside sp!\n");
+	// printf("Inside sp!\n");
 	ft_bzero(temp, sizeof(t_elem));
 	temp->center = get_coord(scene->split[1]);
 	temp->diameter = get_size(scene->split[2]);
@@ -94,14 +94,14 @@ void get_pl(t_scene *scene)
 	t_elem *temp;
 
 	temp = (t_elem*)malloc(sizeof(t_elem));
-printf("Inside plt!\n");
+// printf("Inside plt!\n");
 	ft_bzero(temp, sizeof(t_elem));
 	temp->center = get_coord(scene->split[1]);
-	temp->axis = get_vec_coord(scene->split[2]);
+	temp->axis = v_normalize(get_vec_coord(scene->split[2]));
 	temp->color = get_rgb(scene->split[3]);
 	temp->type = PL;
 	t_elem_add_back(&scene->elements, temp);
-	printf("end of plt!\n");
+	// printf("end of plt!\n");
 }
 void get_cy(t_scene *scene)
 {
@@ -109,7 +109,7 @@ void get_cy(t_scene *scene)
 
 	temp = (t_elem*)malloc(sizeof(t_elem));
 
-	printf("Inside cy!\n");
+	// printf("Inside cy!\n");
 	ft_bzero(temp, sizeof(t_elem));
 	temp->center = get_coord(scene->split[1]);
 	temp->axis = get_vec_coord(scene->split[2]);
@@ -118,6 +118,6 @@ void get_cy(t_scene *scene)
 	temp->color = get_rgb(scene->split[5]);
 	temp->type = CY;
 	t_elem_add_back(&scene->elements, temp);
-	printf("end of cy!\n");
+	// printf("end of cy!\n");
 }
 

@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:23:07 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 12:45:50 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:00:11 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 t_rgb	background(t_hit hit, t_dt *dt)
 {
-	t_rgb	bg;
-	t_rgb	blend;
-	double	ratio;
-
-	blend = (t_rgb){255 - dt->bg.r , 255 - dt->bg.g, 255 - dt->bg.b};
-	ratio = (hit.ray.d.y + 1) / 2;
-	bg.r = 255 - round(blend.r * ratio);
-	bg.g = 255 - round(blend.g * ratio);
-	bg.b = 255 - round(blend.b * ratio);
+	t_rgb		bg;
+	double		ratio;
+	t_vector	ray;
+	
+	ray = v_normalize(hit.ray.d);
+	ratio = (ray.y + 1 )/ 2;
+	bg.r = 255 - dt->bg.r * ratio;
+	bg.g = 255 - dt->bg.g * ratio;
+	bg.b = 255 - dt->bg.b * ratio;
 	//
-	bg = (t_rgb){100, 100, 100};
+	// bg = (t_rgb){100, 100, 100};
 	//
-	return (bg);
+	return (dt->bg);
 }
 
 t_rgb	light_specular(t_hit hit, t_ray ray, t_dt *dt)
@@ -60,7 +60,10 @@ t_rgb	light(t_hit hit, t_dt *dt)
 	// if (light.distance > 0 && hit.distance - light.distance < dt->cl_len + 0.000001)
 	if (light.distance > 0 && d_length(v_p2p(light.point, hit.point)) < 0.000001)
 	{
+		// diffuse = rgb_scale(hit.color, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
+		// diffuse = rgb_scale(dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
 		diffuse = rgb_combine(hit.color, dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
+		// diffuse = rgb_combine(hit.color, hit.color, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
 		specular = light_specular(hit, ray, dt);
 		// printf("norm:%f.%f.%f ", light.norm.x, light.norm.y, light.norm.z);
 		// printf("ray:%f.%f.%f ", light.ray.d.x, light.ray.d.y, light.ray.d.z);

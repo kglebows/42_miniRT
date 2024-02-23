@@ -71,21 +71,23 @@ t_hit	ray_target_cap(t_ray ray, t_elem pl)
 
 	denominator = d_dot(v_normalize(ray.d), v_normalize(v_scale(pl.axis, -1)));
 	hit.ray = ray;
-	if (denominator < 1e-6)
+	if (denominator < 1e-6 && denominator > -1e-6)
 		hit.type = BG;
 	else
 	{
 		hit.type = PL;
 		hit.color = pl.color;
-		hit.distance = d_dot(v_p2p(ray.o, pl.center), pl.axis) * -1
+		hit.distance = d_dot(v_p2p(ray.o, pl.center), v_scale(pl.axis, -1))
 			/ denominator;
-		if (hit.distance < 0)
-			hit.type = BG;
+		// if (hit.distance < 0)
+		// 	hit.type = BG;
 		hit.point = p_translate(
 			v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl.axis;
+		if (denominator >= 0)
+			hit.norm = v_scale(pl.axis, -1);
 		hit_area = v_p2p(pl.center, hit.point);
-		if (d_dot(hit_area, hit_area) >= pl.diameter * pl.diameter / 4)
+		if (d_dot(hit_area, hit_area) >= pl.diameter * pl.diameter )
 			hit.type = BG;
 	}
 	return (hit);
@@ -164,7 +166,7 @@ t_hit	ray_target_cylinder(t_ray ray, t_elem *cy)
 		- (d_dot(ray.d, cy->axis) * d_dot(cy->oc, cy->axis))),
 		d_dot(cy->oc, cy->oc) 
 		- (d_dot(cy->oc, cy->axis) * d_dot(cy->oc, cy->axis))
-		- (cy->height / 2) * (cy->height / 2));
+		- (cy->diameter / 2) * (cy->diameter / 2));
 	hit.ray = ray;
 	if (qf.discriminant >= 0)
 	{

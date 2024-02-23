@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 	pars_scene(argv[1], scene);
 	printf("hello\n");
 	print_scene(scene);
-	// render_mlx(&dt);
-	// mlx_loop(dt.mlx);
+	render_mlx(&dt);
+	mlx_loop(dt.mlx);
 	return 0;
 }
