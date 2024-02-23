@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/22 19:22:17 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:35:45 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	validate(char *line)
 	if (((line[0] == 'p' && line[1] == 'l') || (line[0] == 'c' && line[1] == 'y')) && comma_count != 6)
 		valid_flag = false;
 	if (!valid_flag)
-		{exit(EXIT_FAILURE);}
+		exit(EXIT_FAILURE);
 }
 void	scene_split_validation(t_scene *scene, int element_id)
 {
@@ -108,10 +108,20 @@ void	parse_element(int element_id, t_scene *scene)
 		get_pl, get_cy};
 
 	scene_split_validation(scene, element_id);
-			printf("hello motherfucker 2: return of motherfucker %d\n", element_id);
 	function_arr[element_id](scene);
 	scene->qtys[element_id]++;
 	free_char_array(scene->split);
+}
+void	replace_tabs_with_spaces(char *str)
+{
+	if (!str)
+		return;
+
+	for (int i = 0; str[i] != '\0'; ++i)
+	{
+		if (str[i] == '\t')
+			str[i] = ' ';
+	}
 }
 void	pars_scene(char *file, t_scene *scene)
 {
@@ -121,22 +131,22 @@ void	pars_scene(char *file, t_scene *scene)
 	size_t			len;
 
 	fd = ft_open(file);
-	scene->line = get_next_line(fd);
-	while (scene->line != NULL)
+	while (42)
 	{
+		if (scene->line)
+			free(scene->line);
+		if(!(scene->line = get_next_line(fd)))
+			break;
+		replace_tabs_with_spaces(scene->line);
 		len = ft_strlen(scene->line);
+		if(len == 1 || *scene->line == '#')
+			continue;
 		if (len > 0 && scene->line[len - 1] == '\n')
 			scene->line[len - 1] = '\0';
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
 		if (element_id < 7)
-		{
-		printf("hello motherfucker : %s : %d \n", scene->line, element_id);
 			parse_element(element_id, scene);
-		}
-		free(scene->line);
-		scene->line = get_next_line(fd);
 	}
-	printf("hello motherfucker 3: freefuck\n");
 }

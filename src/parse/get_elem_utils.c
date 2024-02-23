@@ -6,7 +6,7 @@
 /*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:58:54 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/21 12:33:00 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/23 13:08:30 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ double	ft_atof(const char *str)
 	return (result * sign);
 }
 
-t_point get_coord(char *attr)
+t_point	get_coord(char *attr)
 {
-	char **split;
-	t_point coord;
+	char	**split;
+	t_point	coord;
 
 	split = ft_split(attr, ',');
-	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0]) &&
-			ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
+	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0])
+			&& ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
 	{
 		free_char_array(split);
 		ft_putstr_fd("wrong coordinates", 2);
@@ -91,18 +91,18 @@ t_point get_coord(char *attr)
 	coord.y = ft_atof(split[1]);
 	coord.z = ft_atof(split[2]);
 	free_char_array(split);
-	return(coord);
+	return (coord);
 }
-t_vector get_vec_coord(char *attr)
+t_vector	get_vec_coord(char *attr)
 {
-	char **split;
-	t_vector coord;
+	char		**split;
+	t_vector	coord;
 
 	split = ft_split(attr, ',');
-	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0]) &&
-			ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
+	if (ft_arraylen(split) != 3 || !(ft_str_isfloat(split[0])
+			&& ft_str_isfloat(split[1]) && ft_str_isfloat(split[2])))
 	{
-		ft_putstr_fd("Invalid vector", 2);
+		ft_putstr_fd("Invalid vector1", 2);
 		free_char_array(split);
 		exit(EXIT_FAILURE);
 	}
@@ -110,16 +110,19 @@ t_vector get_vec_coord(char *attr)
 	coord.y = ft_atof(split[1]);
 	coord.z = ft_atof(split[2]);
 	free_char_array(split);
-	return(coord);
+	return (coord);
 }
 
-double get_ratio(char *str)
+double	get_ratio(char *str)
 {
 	double	nbr;
 
 	nbr = ft_atof(str);
 	if (!(nbr >= 0.0 && nbr <= 1.0))
-		{ft_putstr_fd("Invalid ratio", 2);exit(EXIT_FAILURE);}
+	{
+		ft_putstr_fd("Invalid ratio", 2);
+		exit(EXIT_FAILURE);
+	}
 	return (nbr);
 }
 double	get_size(char *str)
@@ -128,7 +131,10 @@ double	get_size(char *str)
 
 	nbr = ft_atof(str);
 	if (nbr < 0.0)
-		{ft_putstr_fd("Invalid diameter size", 2);exit(EXIT_FAILURE);}
+	{
+		ft_putstr_fd("Invalid diameter size", 2);
+		exit(EXIT_FAILURE);
+	}
 	return (nbr);
 }
 
@@ -137,11 +143,14 @@ t_vector	get_normal(char *str)
 	t_vector	coord;
 
 	coord = get_vec_coord(str);
-	if (coord.x >= -1.0 && coord.x <= 1.0 &&
-			coord.y >= -1.0 && coord.y <= 1.0 &&
-			coord.z >= -1.0 && coord.z <= 1.0 &&
-			coord.x != 0.0 && coord.y != 0.0 && coord.z != 0.0)
-		return(coord);
+	printf("Center: (%f, %f, %f)", coord.x, coord.y, coord.z);
+	if (coord.x >= -1.0 && coord.x <= 1.0 && coord.y >= -1.0 && coord.y <= 1.0
+		&& coord.z >= -1.0 && coord.z <= 1.0 && coord.x != 0.0 && coord.y != 0.0
+		&& coord.z != 0.0)
+		return (coord);
 	else
-		{ft_putstr_fd("Invalid vector", 2);exit(EXIT_FAILURE);}
+	{
+		ft_putstr_fd("Invalid vector2", 2);
+		exit(EXIT_FAILURE);
+	}
 }
