@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 08:21:41 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:43:16 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	t_hit		hit;
 	double		denominator;
 
-	pl->oc = v_p2p(pl->center, ray.o);
-	denominator = d_dot(ray.d, pl->axis);
+	denominator = d_dot(v_normalize(v_scale(ray.d, 1)), v_normalize(v_scale(pl->axis, -1)));
+	// if (denominator < 0 && denominator != 2.2250738585072014e-308)
+	// 	denominator *= -1;
 	hit.ray = ray;
 	if (denominator < 1e-6)
 		hit.type = BG;
@@ -95,10 +96,12 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	{
 		hit.type = PL;
 		hit.color = pl->color;
-		hit.distance = d_dot(v_scale(pl->oc, -1), pl->axis)
+		hit.distance = d_dot(v_p2p(ray.o, pl->center), pl->axis) * -1
 			/ denominator;
+		if (hit.distance < 0)
+			hit.type = BG;
 		hit.point = p_translate(
-			v_scale(ray.d, hit.distance), ray.o);
+			v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl->axis;
 	}
 	return (hit);

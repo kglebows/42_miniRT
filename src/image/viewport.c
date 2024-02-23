@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 08:23:32 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 09:56:07 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ini_dt(t_dt *dt)
 	dt->l_rgb = dt->scene->light->color;
 	dt->l_pos = dt->scene->light->center;
 	dt->l_ratio = dt->scene->light->ratio;
-	dt->cl_len = d_length(v_p2p(dt->l_pos, dt->c_pos)) + 1e-6;
+	dt->cl_len = d_length(v_p2p(dt->l_pos, dt->c_pos));
 	dt->shiness = 50;
 	dt->elements = dt->scene->elements;
 }

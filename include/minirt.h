@@ -12,7 +12,7 @@
 # include "struct.h"
 
 # ifndef SSAA
-#  define SSAA 1
+#  define SSAA 0
 # endif
 
 # ifndef SPECULAR
