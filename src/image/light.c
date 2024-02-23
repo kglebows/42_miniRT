@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:23:07 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 11:18:47 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:45:50 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ t_rgb	light(t_hit hit, t_dt *dt)
 	// ray.o = hit.point;
 	ray.d = v_normalize(v_scale(v_p2p(dt->l_pos, hit.point), 1));
 	light = ray_shot(ray, dt);
-	if (light.distance > 0 && hit.distance - light.distance < dt->cl_len + 0.000001)
+	// if (light.distance > 0 && hit.distance - light.distance < dt->cl_len + 0.000001)
+	if (light.distance > 0 && d_length(v_p2p(light.point, hit.point)) < 0.000001)
 	{
 		diffuse = rgb_combine(hit.color, dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
 		specular = light_specular(hit, ray, dt);
