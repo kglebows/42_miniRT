@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 15:30:36 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 08:21:41 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *sp)
 	t_hit		hit;
 	t_qf		qf;
 
+	sp->oc = v_p2p(sp->center, ray.o);
 	qf = quadratic_formula(d_dot(ray.d, ray.d),
 		2 * d_dot(ray.d, sp->oc),
 		d_dot(sp->oc, sp->oc) - (sp->diameter / 2) * (sp->diameter / 2));
@@ -85,6 +86,7 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	t_hit		hit;
 	double		denominator;
 
+	pl->oc = v_p2p(pl->center, ray.o);
 	denominator = d_dot(ray.d, pl->axis);
 	hit.ray = ray;
 	if (denominator < 1e-6)

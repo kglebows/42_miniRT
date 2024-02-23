@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 16:39:09 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 08:23:32 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ini_elements(t_dt *dt)
 		if (temp->type == SP || temp->type == PL || temp->type == CY)
 		{
 			temp->axis = v_normalize(temp->axis);
-			temp->oc = v_p2p(temp->center, dt->c_pos);
+			// temp->oc = v_p2p(temp->center, dt->c_pos);
 		}
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");

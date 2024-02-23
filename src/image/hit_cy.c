@@ -69,6 +69,7 @@ t_hit	ray_target_cap(t_ray ray, t_elem pl)
 	double		denominator;
 	t_vector	hit_area;
 
+	pl.oc = v_p2p(pl.center, ray.o);
 	denominator = d_dot(ray.d, pl.axis);
 	hit.ray = ray;
 	if (denominator < 1e-6)
@@ -155,6 +156,7 @@ t_hit	ray_target_cylinder(t_ray ray, t_elem *cy)
 	t_qf		qf;
 	double		m;
 
+	cy->oc = v_p2p(cy->center, ray.o);
 	qf = quadratic_formula(d_dot(ray.d, ray.d)
 		- (d_dot(ray.d, cy->axis) * d_dot(ray.d, cy->axis)),
 		2 * (d_dot(ray.d, cy->oc)

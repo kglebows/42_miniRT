@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 15:34:26 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 08:35:32 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ t_rgb	pixel_colour(u_int32_t x, u_int32_t y, t_dt *dt)
 	t_rgb	rgb;
 	t_rgb	ss[5];
 
-	if (SSAA == 0)
+	if (SSAA <= 0)
 		rgb = light(ray_shot(r_pixelray(x, y, dt), dt), dt);
 	else
 	{
 		ss[0] = light(ray_shot(r_pixelray(x, y, dt), dt), dt);
-		ss[1] = light(ray_shot(r_pixelray(x + 0.5, y, dt), dt), dt);
-		ss[2] = light(ray_shot(r_pixelray(x - 0.5, y, dt), dt), dt);
-		ss[3] = light(ray_shot(r_pixelray(x, y + 0.5, dt), dt), dt);
-		ss[4] = light(ray_shot(r_pixelray(x, y - 0.5, dt), dt), dt);
+		ss[1] = light(ray_shot(r_pixelray(x + 0.25, y, dt), dt), dt);
+		ss[2] = light(ray_shot(r_pixelray(x - 0.25, y, dt), dt), dt);
+		ss[3] = light(ray_shot(r_pixelray(x, y + 0.25, dt), dt), dt);
+		ss[4] = light(ray_shot(r_pixelray(x, y - 0.25, dt), dt), dt);
 		rgb.r = round((ss[0].r + ss[1].r + ss[2].r + ss[3].r + ss[4].r) / 5);
 		rgb.g = round((ss[0].g + ss[1].g + ss[2].g + ss[3].g + ss[4].g) / 5);
 		rgb.b = round((ss[0].b + ss[1].b + ss[2].b + ss[3].b + ss[4].b) / 5);

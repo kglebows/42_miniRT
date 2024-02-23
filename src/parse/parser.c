@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/22 17:00:06 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:22:17 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	validate(char *line)
 	size_t		i;
 	int			comma_count;
 
-	valid_chars = "RALCsp";
+	valid_chars = "RALCspcy";
 	valid_flag = true;
 
 	if (!ft_strchr(valid_chars, line[0]))
@@ -130,9 +130,9 @@ void	pars_scene(char *file, t_scene *scene)
 		element_id = 0;
 		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
 			element_id++;
-		printf("hello motherfucker : %s : %d \n", scene->line, element_id);
 		if (element_id < 7)
 		{
+		printf("hello motherfucker : %s : %d \n", scene->line, element_id);
 			parse_element(element_id, scene);
 		}
 		free(scene->line);

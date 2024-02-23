@@ -12,7 +12,7 @@
 # include "struct.h"
 
 # ifndef SSAA
-#  define SSAA 0
+#  define SSAA 1
 # endif
 
 # ifndef SPECULAR
@@ -20,7 +20,7 @@
 # endif
 
 # ifndef DIFFUSE
-#  define DIFFUSE 0
+#  define DIFFUSE 1
 # endif
 
 /*exit*/

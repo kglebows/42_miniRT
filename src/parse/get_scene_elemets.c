@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/22 16:58:31 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:22:42 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void get_cy(t_scene *scene)
 	printf("Inside cy!\n");
 	ft_bzero(temp, sizeof(t_elem));
 	temp->center = get_coord(scene->split[1]);
-	temp->axis = get_normal(scene->split[2]);
+	temp->axis = get_vec_coord(scene->split[2]);
 	temp->diameter = get_size(scene->split[3]);
 	temp->height = get_size(scene->split[4]);
 	temp->color = get_rgb(scene->split[5]);

@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 10:23:07 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/22 15:25:13 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/23 08:26:21 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_rgb	background(t_hit hit, t_dt *dt)
 	bg.r = 255 - round(blend.r * ratio);
 	bg.g = 255 - round(blend.g * ratio);
 	bg.b = 255 - round(blend.b * ratio);
+
+	bg = (t_rgb){100, 100, 100};
 	return (bg);
 }
 
@@ -43,7 +45,7 @@ t_rgb	light(t_hit hit, t_dt *dt)
 {
 	t_rgb		ambient;
 	t_rgb		diffuse;
-	t_rgb		specular;
+	// t_rgb		specular;
 	t_ray		ray;
 	t_hit		light;
 
@@ -53,14 +55,18 @@ t_rgb	light(t_hit hit, t_dt *dt)
 	ray.o = dt->l_pos;
 	ray.d = v_normalize(v_p2p(ray.o, hit.point));
 	light = ray_shot(ray, dt);
-	if (hit.type == light.type && hit.distance - light.distance < dt->cl_len)
+	if (hit.distance - light.distance < dt->cl_len)
 	{
-		diffuse = rgb_scale(dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio);
-		specular = light_specular(hit, ray, dt);
-		if (DIFFUSE)
+		diffuse = rgb_combine(light.color, dt->l_rgb, d_dot(hit.norm, ray.d) * dt->l_ratio * -1);
+		// specular = light_specular(hit, ray, dt);
+		printf("norm:%f.%f.%f ", light.norm.x, light.norm.y, light.norm.z);
+		printf("ray:%f.%f.%f ", light.ray.d.x, light.ray.d.y, light.ray.d.z);
+		printf("color_motherfucker d%d:%d:%d\n", diffuse.r, diffuse.g, diffuse.b);
+		// printf("color_motherfucker d%d:%d:%d s%d:%d:%d\n", diffuse.r, diffuse.g, diffuse.b, specular.r, specular.g, specular.b);
+		// if (DIFFUSE == 1)
 			ambient = rgb_add(ambient, diffuse);
-		if (SPECULAR)
-			ambient = rgb_add(ambient, specular);
+		// if (SPECULAR == 1)
+			// ambient = rgb_add(ambient, specular);
 	}
 	return (ambient);
 }
