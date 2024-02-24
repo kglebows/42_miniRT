@@ -26,6 +26,9 @@
 /*exit*/
 t_ok		err(char *str);
 t_ok		msg(char *str);
+void		free_elements(t_dt *dt);
+void		exit_esc(keys_t key, void *param);
+void		exit_win(void *param);
 
 /*image*/
 t_ok		render_mlx(t_dt *dt);
