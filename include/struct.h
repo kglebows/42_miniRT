@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 12:33:54 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:50:39 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_vector
 /**
  * @brief Ray represents a vector attached to a point.
  * @param o Origin - A starting point of a vector
- * @param d Direction - A vector consisting of direction 
+ * @param d Direction - A vector consisting of direction
  * multiplied by lenght.
  */
 typedef struct s_ray
@@ -131,7 +131,7 @@ typedef struct		s_elem
 	t_elemtype		type;
 	t_point			center;
 	t_vector		axis;
-	t_vector		oc;  
+	t_vector		oc;
 	t_rgb			color;
 	double			ratio;
 	double			diameter;
@@ -164,14 +164,7 @@ typedef struct		s_scene
 	char			*line;
 	char			**split;
 	short int		qtys[9];
-	t_resol			resol;
-	t_ambilight		ambilight;
-	t_cam			*cam;
-	t_elem			*light;
 	t_elem			*elements;
-	// t_elem			*sp;
-	// t_elem			*pl;
-	// t_elem			*cy;
 }					t_scene;
 
 /**
@@ -212,9 +205,6 @@ typedef struct s_dt
 	t_scene 		*scene;
 }					t_dt;
 
-
-
-
-typedef void		(*parse_function_arr)(t_scene *);
+	typedef void		(*parse_function_arr)(t_scene *, t_dt *);
 
 #endif

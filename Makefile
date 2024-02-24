@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
+#    By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/22 15:39:16 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/24 18:05:16 by ekordi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minirt
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra 
 
 CFLAGS_MLX := -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX := ./lib/mlx
@@ -37,6 +37,7 @@ OBJ_MLX := ${SRC_MLX:.c=.o}
 
 SRCS	=	main.c\
 			exit/error.c\
+			exit/exit.c\
 			image/render.c\
 			image/viewport.c\
 			image/hit.c\
@@ -50,7 +51,11 @@ SRCS	=	main.c\
 			parse/get_elem_utils.c\
 			parse/get_scene_elemets.c\
 			parse/get_rgb.c\
-			parse/utils.c
+			parse/utils.c\
+			parse/validation.c\
+			parse/utils2.c\
+			parse/get_scene_elemets1.c\
+			parse/utils1.c
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 
