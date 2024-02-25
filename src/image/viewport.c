@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/24 10:19:58 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:26:37 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,19 @@ t_point	get_upperleftpixelcenter(t_vector camera, t_dt *dt)
 	t_vector	to_left_upper_corner;
 
 	to_left_upper_corner = v_add(camera,
-		v_scale(dt->delta_u, dt->screen_width * -0.5));
+			v_scale(dt->delta_u, dt->screen_width * -0.5));
 	to_left_upper_corner = v_add(to_left_upper_corner,
-		v_scale(dt->delta_v, dt->screen_height * -0.5));
+			v_scale(dt->delta_v, dt->screen_height * -0.5));
 	to_left_upper_corner = v_add(to_left_upper_corner,
-		v_scale(dt->delta_u, 0.5));
+			v_scale(dt->delta_u, 0.5));
 	to_left_upper_corner = v_add(to_left_upper_corner,
-		v_scale(dt->delta_v, 0.5));
+			v_scale(dt->delta_v, 0.5));
 	return (p_translate(to_left_upper_corner, dt->c_pos));
 }
 
 void	ini_dt(t_dt *dt)
 {
 	dt->bg = (t_rgb){135, 206, 235};
-	dt->a_rgb = dt->scene->ambilight.rgb;
-	dt->a_ratio = dt->scene->ambilight.ratio;
-	dt->c_pos = dt->scene->cam->point;
-	dt->c_dir = v_normalize(dt->scene->cam->normal);
-	dt->c_fov = dt->scene->cam->fov;
-	dt->l_rgb = dt->scene->light->color;
-	dt->l_pos = dt->scene->light->center;
-	dt->l_ratio = dt->scene->light->ratio;
 	dt->cl_len = d_length(v_p2p(dt->l_pos, dt->c_pos));
 	dt->shiness = 50;
 	dt->elements = dt->scene->elements;

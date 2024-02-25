@@ -6,118 +6,52 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 09:56:19 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/23 14:52:26 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:02:43 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	get_resol(t_scene *scene)
+void	get_ambilight(t_scene *scene, t_dt *dt)
 {
-	if (ft_strisint(scene->split[1]) && ft_strisint(scene->split[2]))
-	{
-		scene->resol.x = ft_atoi(scene->split[1]);
-		scene->resol.y = ft_atoi(scene->split[2]);
-	}
-	else
-	{	ft_putstr_fd("Invalid Resolution", 2);
-		exit(EXIT_FAILURE);}
-}
-
-void	get_ambilight(t_scene *scene)
-{
-	double	ratio;
 	char	**split;
 
-	// printf("Inside ambient!\n");
 	split = ft_split(scene->split[2], ',');
-	ft_bzero(&scene->ambilight, 0);
 	if (ft_str_isfloat(scene->split[1]) && ft_arraylen(split) == 3)
 	{
-		ratio = ft_atof(scene->split[1]);
-		scene->ambilight.ratio = ratio;
-		scene->ambilight.rgb = get_rgb(scene->split[2]);
-	// printf("hello motherfucker 3: last fatherfucker\n");
+		dt->a_ratio = get_ratio(scene, scene->split[1]);
+		dt->a_rgb = get_rgb(scene, scene->split[2]);
 		free_char_array(split);
 	}
 	else
 	{
 		free_char_array(split);
-		ft_putstr_fd("Invalid ambilight", 2);
-		exit(EXIT_FAILURE);
-}
+		err("Invalid ambilight");
+		ft_exit(scene);
 	}
-
-void get_camera(t_scene *scene)
-{
-	t_cam	*tmp;
-
-	// printf("Inside caemra!\n");
-	tmp = (t_cam*)malloc(sizeof(t_cam));
-	ft_bzero(tmp, sizeof(t_cam));
-	tmp->point = get_coord(scene->split[1]);
-	tmp->normal = get_vec_coord(scene->split[2]);
-	tmp->fov = ft_atof(scene->split[3]);
-	t_cam_add_back(&scene->cam, tmp);
-	scene->qtys[2]++;
 }
 
-void get_light(t_scene *scene)
+void	get_camera(t_scene *scene, t_dt *dt)
 {
-	t_elem *temp;
-
-	// printf("Inside lighy!\n");
-	temp = (t_elem*)malloc(sizeof(t_elem));
-	ft_bzero(temp, sizeof(t_elem));
-	temp->center = get_coord(scene->split[1]);
-	temp->ratio = get_ratio(scene->split[2]);
-	temp->color = get_rgb(scene->split[3]);
-	t_elem_add_back(&scene->light, temp);
+	dt->c_pos = get_coord(scene, scene->split[1]);
+	dt->c_dir = get_vec_coord(scene, scene->split[2]);
+	if (dt->c_dir.x == 0 && dt->c_dir.y == 0 && dt->c_dir.z == 0)
+	{
+		err("Invalid camera direction");
+		ft_exit(scene);
+	}
+	dt->c_dir = v_normalize(dt->c_dir);
+	dt->c_fov = ft_atof(scene, scene->split[3]);
+	if (dt->c_fov < 0 || dt->c_fov > 180)
+	{
+		err("Invalid camera fov value");
+		ft_exit(scene);
+	}
 }
 
-void get_sp(t_scene *scene)
+void	get_light(t_scene *scene, t_dt *dt)
 {
-	t_elem *temp;
-
-	temp = (t_elem*)malloc(sizeof(t_elem));
-	// printf("Inside sp!\n");
-	ft_bzero(temp, sizeof(t_elem));
-	temp->center = get_coord(scene->split[1]);
-	temp->diameter = get_size(scene->split[2]);
-	temp->color = get_rgb(scene->split[3]);
-	temp->type = SP;
-	t_elem_add_back(&scene->elements, temp);
+	dt->l_pos = get_coord(scene, scene->split[1]);
+	dt->l_ratio = get_ratio(scene, scene->split[2]);
+	dt->l_rgb = get_rgb(scene, scene->split[3]);
 }
-
-void get_pl(t_scene *scene)
-{
-	t_elem *temp;
-
-	temp = (t_elem*)malloc(sizeof(t_elem));
-// printf("Inside plt!\n");
-	ft_bzero(temp, sizeof(t_elem));
-	temp->center = get_coord(scene->split[1]);
-	temp->axis = v_normalize(get_vec_coord(scene->split[2]));
-	temp->color = get_rgb(scene->split[3]);
-	temp->type = PL;
-	t_elem_add_back(&scene->elements, temp);
-	// printf("end of plt!\n");
-}
-void get_cy(t_scene *scene)
-{
-	t_elem *temp;
-
-	temp = (t_elem*)malloc(sizeof(t_elem));
-
-	// printf("Inside cy!\n");
-	ft_bzero(temp, sizeof(t_elem));
-	temp->center = get_coord(scene->split[1]);
-	temp->axis = get_vec_coord(scene->split[2]);
-	temp->diameter = get_size(scene->split[3]);
-	temp->height = get_size(scene->split[4]);
-	temp->color = get_rgb(scene->split[5]);
-	temp->type = CY;
-	t_elem_add_back(&scene->elements, temp);
-	// printf("end of cy!\n");
-}
-

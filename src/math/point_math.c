@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:44:42 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/14 13:27:11 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:25:55 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ t_qf	quadratic_formula(double a, double b, double c)
  */
 double	d_shortest_distance(t_qf qf)
 {
-	double dist1;
-	double dist2;
+	double		dist1;
+	double		dist2;
 
 	if (qf.discriminant == 0)
 		return ((-1 * qf.b) / (2 * qf.a));

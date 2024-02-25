@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/25 12:33:00 by kglebows          #+#    #+#             */
+/*   Updated: 2024/02/25 12:37:41 by kglebows         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -29,6 +41,7 @@ t_ok		msg(char *str);
 void		free_elements(t_dt *dt);
 void		exit_esc(keys_t key, void *param);
 void		exit_win(void *param);
+void		ft_exit(t_scene *scene);
 
 /*image*/
 t_ok		render_mlx(t_dt *dt);
@@ -39,6 +52,7 @@ t_hit		ray_target_sphere(t_ray ray, t_elem *element);
 t_hit		ray_target_plane(t_ray ray, t_elem *element);
 t_hit		ray_target_cylinder(t_ray ray, t_elem *element);
 t_hit		ray_shot(t_ray ray, t_dt *dt);
+t_ok		draw_image(t_dt *dt);
 t_rgb		light(t_hit hit, t_dt *dt);
 
 /*math*/
@@ -59,28 +73,33 @@ t_rgb		rgb_combine(t_rgb base, t_rgb combine, double ratio);
 t_rgb		rgb_scale(t_rgb base, double ratio);
 
 /*parse*/
-void		pars_scene(char *file, t_scene *scene);
-void		get_resol(t_scene *scene);
-t_point		get_coord(char *attr);
-void		get_camera(t_scene *scene);
-void		get_light(t_scene *scene);
+void		pars_scene(char *file, t_scene *scene, t_dt *dt);
+t_point		get_coord(t_scene *scene, char *attr);
+void		get_camera(t_scene *scene, t_dt *dt);
+void		get_light(t_scene *scene, t_dt *dt);
 t_vector	get_normal(char *str);
-void		get_sp(t_scene *scene);
-void		get_pl(t_scene *scene);
-void		get_cy(t_scene *scene);
-double		get_ratio(char *str);
-double		get_size(char *str);
+void		get_sp(t_scene *scene, t_dt *dt);
+void		get_pl(t_scene *scene, t_dt *dt);
+void		get_cy(t_scene *scene, t_dt *dt);
+double		get_ratio(t_scene *scene, char *str);
+double		get_size(t_scene *scene, char *str);
 bool		ft_strisint(char *str);
 bool		ft_str_isfloat(char *str);
-void		get_ambilight(t_scene *scene);
-double		ft_atof(const char *str);
+void		get_ambilight(t_scene *scene, t_dt *dt);
+double		ft_atof(t_scene *scene, char *str);
 size_t		ft_arraylen(char **s);
-t_rgb		get_rgb(char *split);
+t_rgb		get_rgb(t_scene *scene, char *rgb);
 bool		ft_isrgb(int n);
-t_vector	get_vec_coord(char *attr);
+t_vector	get_vec_coord(t_scene *scene, char *attr);
 void		free_char_array(char **array);
 t_point		gen_coord(double x, double y, double z);
 void		t_elem_add_back(t_elem **lst, t_elem *new);
 void		t_cam_add_back(t_cam **lst, t_cam *new);
+void		replace_tabs_with_spaces(char *str);
+void		scene_split_validation(t_scene *scene, int element_id);
+int			line_check(char *s);
+int			checkFileType(const char *filename);
+int			ft_open(char *argv, t_scene *scene);
+bool		ftstrisint(char *str);
 
 #endif

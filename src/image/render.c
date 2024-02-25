@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 08:35:48 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/24 11:23:14 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:28:54 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_ray	r_pixelray(u_int32_t x, u_int32_t y, t_dt *dt)
 
 	ray.o = dt->c_pos;
 	pixel = p_translate(v_add(
-		v_scale(dt->delta_u, x),
-		v_scale(dt->delta_v, y)),
-		dt->pixel_center);
+				v_scale(dt->delta_u, x),
+				v_scale(dt->delta_v, y)),
+			dt->pixel_center);
 	ray.d = v_normalize(v_p2p(dt->c_pos, pixel));
 	return (ray);
 }
@@ -52,9 +52,10 @@ t_hit	ray_shot(t_ray ray, t_dt *dt)
 			temp_hit = ray_target_cylinder(ray, temp);
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");
-		if (temp_hit.type != BG 
+		if (temp_hit.type != BG
 			&& ((hit.type == BG && temp_hit.distance > 0)
-			|| (hit.type != BG && temp_hit.distance < hit.distance && temp_hit.distance > 0)))
+				|| (hit.type != BG && temp_hit.distance < hit.distance
+					&& temp_hit.distance > 0)))
 			hit = temp_hit;
 		temp = temp->next;
 	}
@@ -126,23 +127,4 @@ t_ok	draw_image(t_dt *dt)
 		y++;
 	}
 	return (OK);
-}
-
-t_ok	render_mlx(t_dt *dt)
-{
-	dt->screen_width = 1920;
-	dt->screen_height = 1080;
-	dt->mlx = mlx_init(dt->screen_width, dt->screen_height, "-=MiniRT=-", true);
-	if (!dt->mlx)
-		return (err("mlx initialization failed!"));
-	dt->img = mlx_new_image(dt->mlx, dt->screen_width, dt->screen_height);
-	if (!dt->img)
-		return (err("mlx image creation failed!"));
-	mlx_key_hook(dt->mlx, (void *)exit_esc, (void *)dt);
-	mlx_close_hook(dt->mlx, (void *)exit_win, (void *)dt);
-	mlx_image_to_window(dt->mlx, dt->img, 0, 0);
-	ini_dt(dt);
-	ini_viewport(dt);
-	ini_elements(dt);
-	return (draw_image(dt));
 }

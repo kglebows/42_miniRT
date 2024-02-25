@@ -6,7 +6,7 @@
 #    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/22 15:39:16 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/25 11:52:36 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ OBJ_MLX := ${SRC_MLX:.c=.o}
 
 SRCS	=	main.c\
 			exit/error.c\
+			exit/exit.c\
 			image/render.c\
 			image/viewport.c\
 			image/hit.c\
@@ -49,8 +50,12 @@ SRCS	=	main.c\
 			parse/parser.c\
 			parse/get_elem_utils.c\
 			parse/get_scene_elemets.c\
+			parse/get_scene_elemets1.c\
 			parse/get_rgb.c\
-			parse/utils.c
+			parse/utils.c\
+			parse/utils1.c\
+			parse/utils2.c\
+			parse/validation.c
 
 OBJS	= $(SRCS:%.c=$(OBJDIR)/%.o)
 

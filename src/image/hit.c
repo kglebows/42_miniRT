@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 11:30:06 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 15:32:24 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:24:28 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *sp)
 
 	sp->oc = v_p2p(sp->center, ray.o);
 	qf = quadratic_formula(d_dot(ray.d, ray.d),
-		2 * d_dot(ray.d, sp->oc),
-		d_dot(sp->oc, sp->oc) - (sp->diameter / 2) * (sp->diameter / 2));
+			2 * d_dot(ray.d, sp->oc),
+			d_dot(sp->oc, sp->oc) - (sp->diameter / 2) * (sp->diameter / 2));
 	hit.ray = ray;
 	if (qf.discriminant < 0)
 		hit.type = BG;
@@ -54,7 +54,7 @@ t_hit	ray_target_sphere(t_ray ray, t_elem *sp)
 		hit.color = sp->color;
 		hit.distance = d_shortest_distance(qf);
 		hit.point = p_translate(
-			v_scale(ray.d, hit.distance), ray.o);
+				v_scale(ray.d, hit.distance), ray.o);
 		hit.norm = v_normalize(v_p2p(sp->center, hit.point));
 	}
 	return (hit);
@@ -86,9 +86,8 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	t_hit		hit;
 	double		denominator;
 
-	denominator = d_dot(v_normalize(v_scale(ray.d, 1)), v_normalize(v_scale(pl->axis, 1)));
-	// if (denominator < 0 && denominator != 2.2250738585072014e-308)
-	// 	denominator *= -1;
+	denominator = d_dot(v_normalize(v_scale(ray.d, 1)),
+			v_normalize(v_scale(pl->axis, 1)));
 	hit.ray = ray;
 	if (denominator < 1e-6 && denominator > -1e-6)
 		hit.type = BG;
@@ -96,13 +95,10 @@ t_hit	ray_target_plane(t_ray ray, t_elem *pl)
 	{
 		hit.type = PL;
 		hit.color = pl->color;
-		// hit.distance = d_dot(v_p2p(ray.o, pl->center), v_scale(pl->axis, -1))
-		hit.distance = d_dot(v_p2p(pl->center, ray.o), v_scale(pl->axis, -1)) 
+		hit.distance = d_dot(v_p2p(pl->center, ray.o), v_scale(pl->axis, -1))
 			/ denominator;
-		// if (hit.distance < 0)
-		// 	hit.type = BG;
 		hit.point = p_translate(
-			v_scale(v_normalize(ray.d), hit.distance), ray.o);
+				v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl->axis;
 		if (denominator >= 0)
 			hit.norm = v_scale(pl->axis, -1);

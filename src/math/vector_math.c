@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:03:47 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/13 07:30:46 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:25:42 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ double	d_length(t_vector vector)
 {
 	double		lenght;
 
-	lenght = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+	lenght = sqrt(vector.x * vector.x + vector.y
+			* vector.y + vector.z * vector.z);
 	return (lenght);
 }
 

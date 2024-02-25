@@ -6,147 +6,75 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/24 08:26:55 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:35:59 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-int checkFileType(const char *filename) {
-    const char *extension = ft_strrchr(filename, '.');
-    if (extension != NULL && ft_strncmp(extension, ".rt", 3) == 0) {
-        return 1;
-    } else {
-		ft_putstr_fd("Error: File is not of type '.rt'\n", 2);
-        exit(EXIT_FAILURE);
-    }
-}
 
-int	ft_open(char *argv)
-{
-	int	fd;
-	checkFileType(argv);
-	fd = open(argv, O_RDONLY);
-	if (fd == -1)
-	{
-		if (errno == EACCES)
-			ft_putstr_fd("zsh: permission denied: ", 2);
-		else if (errno == ENOENT)
-			ft_putstr_fd("zsh: no such file or directory: ", 2);
-		else
-			ft_putstr_fd("zsh: error opening the file: ", 2);
-		ft_putstr_fd(argv, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	return (fd);
-}
-
-
-bool	ftstrisint(char *str)
+void	replace_tabs_with_spaces(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (i <= ft_strlen(str))
-	{
-		if (!ft_isdigit(str[i++]))
-			return (false);
-	}
-	return (true);
-}
-
-void	validate(char *line)
-{
-	const char	*valid_chars;
-	bool		valid_flag;
-	size_t		i;
-	int			comma_count;
-
-	valid_chars = "RALCspcy";
-	valid_flag = true;
-
-	if (!ft_strchr(valid_chars, line[0]))
-		valid_flag = false;
-	i = 2;
-	comma_count = 0;
-	while (line[i])
-	{
-		if (!ft_isdigit(line[i]) && !(line[i] == ',' || line[i] == '-'
-			|| line[i] == ' ' || line[i] == '.'))
-				valid_flag = false;
-		if (line[i] == ',')
-			comma_count++;
-		i++;
-	}
-
-	if (line[0] == 'R' && comma_count != 0)
-		valid_flag = false;
-	if (line[0] == 'A' && comma_count != 2)
-		valid_flag = false;
-	if ((line[0] == 'L' || (line[0] == 'C' && line[1] == ' ') || (line[0] == 's' && line[1] == 'p'))
-		&& comma_count != 4)
-		valid_flag = false;
-	if (((line[0] == 'p' && line[1] == 'l') || (line[0] == 'c' && line[1] == 'y')) && comma_count != 6)
-		valid_flag = false;
-	if (!valid_flag)
-		exit(EXIT_FAILURE);
-}
-void	scene_split_validation(t_scene *scene, int element_id)
-{
-	static size_t	element_attr_count[7] = {3, 3, 4, 4, 4, 4, 6};
-	int				i;
-
-	i = 1;
-	validate(scene->line);
-	scene->split = ft_split(scene->line, ' ');
-	if (ft_arraylen(scene->split) != element_attr_count[element_id])
-		{ft_putstr_fd("Invalid number of attributes", 2);exit(EXIT_FAILURE);}
-}
-
-void	parse_element(int element_id, t_scene *scene)
-{
-	parse_function_arr	function_arr[7] = {get_resol, get_ambilight, get_camera, get_light, get_sp,
-		get_pl, get_cy};
-
-	scene_split_validation(scene, element_id);
-	function_arr[element_id](scene);
-	scene->qtys[element_id]++;
-	free_char_array(scene->split);
-}
-void	replace_tabs_with_spaces(char *str)
-{
 	if (!str)
-		return;
-
-	for (int i = 0; str[i] != '\0'; ++i)
+		return ;
+	i = 0;
+	while (str[i] != '\0')
 	{
 		if (str[i] == '\t')
 			str[i] = ' ';
+		i++;
 	}
 }
-void	pars_scene(char *file, t_scene *scene)
-{
-	int				fd;
-	static char		*s[7] = {"R ", "A ", "C ", "L ", "sp", "pl", "cy"};
-	int				element_id;
-	size_t			len;
 
-	fd = ft_open(file);
+void	parse_element(int element_id, t_scene *scene, t_dt *dt)
+{
+	t_parse_function_arr	function_arr[6];
+
+	function_arr[0] = get_ambilight;
+	function_arr[1] = get_camera;
+	function_arr[2] = get_light;
+	function_arr[3] = get_sp;
+	function_arr[4] = get_pl;
+	function_arr[5] = get_cy;
+	scene_split_validation(scene, element_id);
+	function_arr[element_id](scene, dt);
+	scene->qtys[element_id]++;
+}
+
+void	quantity_check(t_scene *scene)
+{
+	if (scene->qtys[0] > 1 || scene->qtys[1] != 1 || scene->qtys[2] > 1)
+	{
+		err("Invalid quantity of Ambilight || Camera || Light");
+		ft_exit(scene);
+	}
+}
+
+void	pars_scene(char *file, t_scene *scene, t_dt *dt)
+{
+	int		fd;
+	int		element_id;
+	char	**elements_split;
+
+	elements_split = ft_split("A C L sp pl cy", ' ');
+	fd = ft_open(file, scene);
 	while (42)
 	{
-		if (scene->line)
-			free(scene->line);
-		if(!(scene->line = get_next_line(fd)))
-			break;
+		free(scene->line);
+		scene->line = get_next_line(fd);
+		if (!scene->line)
+			break ;
 		replace_tabs_with_spaces(scene->line);
-		len = ft_strlen(scene->line);
-		if(len == 1 || *scene->line == '#')
-			continue;
-		if (len > 0 && scene->line[len - 1] == '\n')
-			scene->line[len - 1] = '\0';
+		if (line_check(scene->line))
+			continue ;
 		element_id = 0;
-		while (s[element_id] && ft_strncmp(scene->line, s[element_id], 2))
+		while (elements_split[element_id] && ft_strncmp(scene->line,
+				elements_split[element_id], 1))
 			element_id++;
-		if (element_id < 7)
-			parse_element(element_id, scene);
+		if (element_id < 6)
+			parse_element(element_id, scene, dt);
 	}
+	quantity_check(scene);
+	free_char_array(elements_split);
 }

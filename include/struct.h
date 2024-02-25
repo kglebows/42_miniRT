@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:07:54 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 12:33:54 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:35:30 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,12 @@ typedef struct s_hit
  * @param height height of cylinder
  * @param next next element on the list. NULL == end of list
  */
-typedef struct		s_elem
+typedef struct s_elem
 {
 	t_elemtype		type;
 	t_point			center;
 	t_vector		axis;
-	t_vector		oc;  
+	t_vector		oc;
 	t_rgb			color;
 	double			ratio;
 	double			diameter;
@@ -139,7 +139,7 @@ typedef struct		s_elem
 	struct s_elem	*next;
 }					t_elem;
 
-typedef struct		s_cam
+typedef struct s_cam
 {
 	t_point			point;
 	t_vector		normal;
@@ -147,37 +147,30 @@ typedef struct		s_cam
 	struct s_cam	*next;
 }					t_cam;
 
-typedef struct		s_resol
+typedef struct s_resol
 {
 	int				x;
 	int				y;
 }					t_resol;
 
-typedef struct		s_ambilight
+typedef struct s_ambilight
 {
 	double			ratio;
 	t_rgb			rgb;
 }					t_ambilight;
 
-typedef struct		s_scene
+typedef struct s_scene
 {
 	char			*line;
 	char			**split;
 	short int		qtys[9];
-	t_resol			resol;
-	t_ambilight		ambilight;
-	t_cam			*cam;
-	t_elem			*light;
 	t_elem			*elements;
-	// t_elem			*sp;
-	// t_elem			*pl;
-	// t_elem			*cy;
 }					t_scene;
 
 /**
  * @brief quadratic formula solving structure
  */
-typedef struct		s_qf
+typedef struct s_qf
 {
 	double			a;
 	double			b;
@@ -209,12 +202,9 @@ typedef struct s_dt
 	t_point			l_pos;
 	double			l_ratio;
 	double			shiness;
-	t_scene 		*scene;
+	t_scene			*scene;
 }					t_dt;
 
-
-
-
-typedef void		(*parse_function_arr)(t_scene *);
+typedef void		(*t_parse_function_arr)(t_scene *, t_dt *);
 
 #endif

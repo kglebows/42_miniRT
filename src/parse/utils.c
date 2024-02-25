@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 09:38:02 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/18 14:42:30 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/25 12:18:01 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void free_char_array(char **array) {
-    if (array == NULL) return;
-
-    int i = 0;
-    while (array[i] != NULL) {
-        free(array[i]);
-        i++;
-    }
-    free(array);
-}
 
 size_t	ft_arraylen(char **s)
 {
@@ -33,32 +22,15 @@ size_t	ft_arraylen(char **s)
 	return (l);
 }
 
-t_point		gen_coord(double x, double y, double z)
-{
-	t_point	coord;
-
-	coord.x = x;
-	coord.y = y;
-	coord.z = z;
-	return (coord);
-}
-
 t_elem	*t_elem_last(t_elem *lst)
 {
 	if (!lst)
 		return (0);
-	while (lst -> next)
-		lst = lst -> next;
+	while (lst->next)
+		lst = lst->next;
 	return (lst);
 }
-t_cam	*t_cam_last(t_cam *lst)
-{
-	if (!lst)
-		return (0);
-	while (lst -> next)
-		lst = lst -> next;
-	return (lst);
-}
+
 void	t_elem_add_back(t_elem **lst, t_elem *new)
 {
 	t_elem	*last;
@@ -67,15 +39,41 @@ void	t_elem_add_back(t_elem **lst, t_elem *new)
 	if (!last)
 		*lst = new;
 	else
-		last -> next = new;
+		last->next = new;
 }
-void	t_cam_add_back(t_cam **lst, t_cam *new)
-{
-	t_cam	*last;
 
-	last = t_cam_last(*lst);
-	if (!last)
-		*lst = new;
+int	check_file_type(const char *filename)
+{
+	const char	*extension;
+
+	extension = ft_strrchr(filename, '.');
+	if (extension != NULL && ft_strncmp(extension, ".rt", 3) == 0)
+		return (0);
 	else
-		last -> next = new;
+	{
+		err("Error: File is not of type '.rt'\n");
+		return (1);
+	}
+}
+
+int	ft_open(char *argv, t_scene *scene)
+{
+	int	fd;
+
+	if (check_file_type(argv))
+		ft_exit(scene);
+	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+	{
+		if (errno == EACCES)
+			ft_putstr_fd("zsh: permission denied: ", 2);
+		else if (errno == ENOENT)
+			ft_putstr_fd("zsh: no such file or directory: ", 2);
+		else
+			ft_putstr_fd("zsh: error opening the file: ", 2);
+		ft_putstr_fd(argv, 2);
+		ft_putstr_fd("\n", 2);
+		ft_exit(scene);
+	}
+	return (fd);
 }

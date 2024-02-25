@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit_cy.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/25 12:25:01 by kglebows          #+#    #+#             */
+/*   Updated: 2024/02/25 12:31:46 by kglebows         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m)
@@ -10,7 +22,7 @@ t_hit	ray_hit_cylinder_side(t_hit hit, t_elem *cy, double m)
 	side.type = CY;
 	side.point = p_translate(v_scale(hit.ray.d, side.distance), hit.ray.o);
 	side.norm = v_normalize(v_subtract(v_p2p(cy->center, side.point),
-		v_scale(cy->axis, m)));
+				v_scale(cy->axis, m)));
 	return (side);
 }
 
@@ -80,10 +92,8 @@ t_hit	ray_target_cap(t_ray ray, t_elem pl)
 		hit.distance = d_dot(v_p2p(ray.o, pl.center), v_scale(pl.axis, -1))
 			/ denominator;
 		hit.point = p_translate(
-			v_scale(v_normalize(ray.d), hit.distance), ray.o);
+				v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl.axis;
-		// if (denominator >= 0)
-		// 	hit.norm = v_scale(pl.axis, -1);
 		hit_area = v_p2p(pl.center, hit.point);
 		if (d_dot(hit_area, hit_area) >= pl.diameter * pl.diameter)
 			hit.type = BG;
@@ -159,12 +169,12 @@ t_hit	ray_target_cylinder(t_ray ray, t_elem *cy)
 
 	cy->oc = v_p2p(cy->center, ray.o);
 	qf = quadratic_formula(d_dot(ray.d, ray.d)
-		- (d_dot(ray.d, cy->axis) * d_dot(ray.d, cy->axis)),
-		2 * (d_dot(ray.d, cy->oc)
-		- (d_dot(ray.d, cy->axis) * d_dot(cy->oc, cy->axis))),
-		d_dot(cy->oc, cy->oc) 
-		- (d_dot(cy->oc, cy->axis) * d_dot(cy->oc, cy->axis))
-		- (cy->diameter / 2) * (cy->diameter / 2));
+			- (d_dot(ray.d, cy->axis) * d_dot(ray.d, cy->axis)),
+			2 * (d_dot(ray.d, cy->oc)
+				- (d_dot(ray.d, cy->axis) * d_dot(cy->oc, cy->axis))),
+			d_dot(cy->oc, cy->oc)
+			- (d_dot(cy->oc, cy->axis) * d_dot(cy->oc, cy->axis))
+			- (cy->diameter / 2) * (cy->diameter / 2));
 	hit.ray = ray;
 	if (qf.discriminant >= 0)
 	{

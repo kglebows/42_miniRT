@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_rgb.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 11:04:58 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/22 16:51:20 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:18:44 by ekordi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,24 @@ bool	ft_isrgb(int n)
 		return (true);
 	return (false);
 }
-t_rgb	get_rgb(char *rgb)
-{
-	t_rgb temp;
-	char **split = ft_split(rgb, ',');
-	int	i;
 
+t_rgb	get_rgb(t_scene *scene, char *rgb)
+{
+	t_rgb	temp;
+	char	**split;
+	int		i;
+
+	split = ft_split(rgb, ',');
 	i = 0;
 	ft_bzero(&temp, 0);
 	while (i < 3)
 	{
-		if (ft_strisint(split[i]) == false || ft_isrgb(ft_atoi(split[i])) == false)
+		if (ft_strisint(split[i]) == false
+			|| ft_isrgb(ft_atoi(split[i])) == false)
 		{
-			ft_putstr_fd("Invalid RGB color", 2);
+			err("Invalid RGB color");
 			free_char_array(split);
-			exit(3);
+			ft_exit(scene);
 		}
 		i++;
 	}
@@ -40,5 +43,5 @@ t_rgb	get_rgb(char *rgb)
 	temp.g = ft_atoi(split[1]);
 	temp.b = ft_atoi(split[2]);
 	free_char_array(split);
-	return(temp);
+	return (temp);
 }
