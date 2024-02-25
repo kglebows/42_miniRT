@@ -30,8 +30,9 @@ int	main(int argc, char **argv)
 	scene = initialize(scene, &dt);
 	dt.scene = scene;
 	pars_scene(argv[1], scene, &dt);
-	// system("leaks minirt");
-	// render_mlx(&dt);
-	// mlx_loop(dt.mlx);
-	return (0);
+	if (render_mlx(&dt) == KO)
+		exit_win(&dt);
+	free_elements(&dt);
+	mlx_loop(dt.mlx);
+	return 0;
 }

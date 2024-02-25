@@ -79,15 +79,13 @@ t_hit	ray_target_cap(t_ray ray, t_elem pl)
 		hit.color = pl.color;
 		hit.distance = d_dot(v_p2p(ray.o, pl.center), v_scale(pl.axis, -1))
 			/ denominator;
-		// if (hit.distance < 0)
-		// 	hit.type = BG;
 		hit.point = p_translate(
 			v_scale(v_normalize(ray.d), hit.distance), ray.o);
 		hit.norm = pl.axis;
-		if (denominator >= 0)
-			hit.norm = v_scale(pl.axis, -1);
+		// if (denominator >= 0)
+		// 	hit.norm = v_scale(pl.axis, -1);
 		hit_area = v_p2p(pl.center, hit.point);
-		if (d_dot(hit_area, hit_area) >= pl.diameter * pl.diameter )
+		if (d_dot(hit_area, hit_area) >= pl.diameter * pl.diameter)
 			hit.type = BG;
 	}
 	return (hit);

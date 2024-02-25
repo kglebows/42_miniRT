@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   viewport.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekordi <ekordi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:44:14 by kglebows          #+#    #+#             */
-/*   Updated: 2024/02/23 19:53:02 by ekordi           ###   ########.fr       */
+/*   Updated: 2024/02/25 11:39:31 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void	ini_elements(t_dt *dt)
 	while (temp != NULL)
 	{
 		if (temp->type == SP || temp->type == PL || temp->type == CY)
-		{
 			temp->axis = v_normalize(temp->axis);
-			// temp->oc = v_p2p(temp->center, dt->c_pos);
-		}
 		else
 			err("UNIDENTIFIED ELEMENT IN THE LIST!");
 		temp = temp->next;
