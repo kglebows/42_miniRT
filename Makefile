@@ -6,14 +6,14 @@
 #    By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/16 18:20:23 by kglebows          #+#    #+#              #
-#    Updated: 2024/02/25 11:52:36 by kglebows         ###   ########.fr        #
+#    Updated: 2024/02/26 11:56:24 by kglebows         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minirt
+NAME = miniRT
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 CFLAGS_MLX := -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX := ./lib/mlx

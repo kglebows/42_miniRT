@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:42:25 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/25 12:35:59 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:55:54 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	pars_scene(char *file, t_scene *scene, t_dt *dt)
 			element_id++;
 		if (element_id < 6)
 			parse_element(element_id, scene, dt);
+		free_char_array(scene->split);
 	}
 	quantity_check(scene);
 	free_char_array(elements_split);
-}
+} 

@@ -6,7 +6,7 @@
 /*   By: kglebows <kglebows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 09:38:02 by ekordi            #+#    #+#             */
-/*   Updated: 2024/02/25 12:18:01 by kglebows         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:03:15 by kglebows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ void	t_elem_add_back(t_elem **lst, t_elem *new)
 		last->next = new;
 }
 
-int	check_file_type(const char *filename)
+int	check_file_type(const char *s)
 {
-	const char	*extension;
+	int			len;
 
-	extension = ft_strrchr(filename, '.');
-	if (extension != NULL && ft_strncmp(extension, ".rt", 3) == 0)
+	len = ft_strlen(s);
+	
+	if (len > 3 && s[len - 3] == '.' && s[len - 2] == 'r' && s[len - 1] == 't')
 		return (0);
 	else
 	{
